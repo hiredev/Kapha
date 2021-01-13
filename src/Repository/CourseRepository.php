@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Pago;
+use App\Entity\Course;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Pago|null find($id, $lockMode = null, $lockVersion = null)
- * @method Pago|null findOneBy(array $criteria, array $orderBy = null)
- * @method Pago[]    findAll()
- * @method Pago[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Course|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Course|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Course[]    findAll()
+ * @method Course[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PagoRepository extends ServiceEntityRepository
+class CourseRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Pago::class);
+        parent::__construct($registry, Course::class);
     }
 
     // /**
-    //  * @return Pago[] Returns an array of Pago objects
+    //  * @return Programa[] Returns an array of Programa objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class PagoRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Pago
+    public function findOneBySomeField($value): ?Programa
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

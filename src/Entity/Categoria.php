@@ -35,13 +35,13 @@ class Categoria
     private $html;
 
     /**
-     * @ORM\OneToMany(targetEntity=Maestro::class, mappedBy="categoria")
+     * @ORM\OneToMany(targetEntity=Teacher::class, mappedBy="categoria")
      */
-    private $maestros;
+    private $teachers;
 
     public function __construct()
     {
-        $this->maestros = new ArrayCollection();
+        $this->teachers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,30 +86,30 @@ class Categoria
     }
 
     /**
-     * @return Collection|Maestro[]
+     * @return Collection|Teacher[]
      */
-    public function getMaestros(): Collection
+    public function getTeachers(): Collection
     {
-        return $this->maestros;
+        return $this->teachers;
     }
 
-    public function addMaestro(Maestro $maestro): self
+    public function addTeacher(Teacher $teacher): self
     {
-        if (!$this->maestros->contains($maestro)) {
-            $this->maestros[] = $maestro;
-            $maestro->setCategoria($this);
+        if (!$this->teachers->contains($teacher)) {
+            $this->teachers[] = $teacher;
+            $teacher->setCategoria($this);
         }
 
         return $this;
     }
 
-    public function removeMaestro(Maestro $maestro): self
+    public function removeTeacher(Teacher $teacher): self
     {
-        if ($this->maestros->contains($maestro)) {
-            $this->maestros->removeElement($maestro);
+        if ($this->teachers->contains($teacher)) {
+            $this->teachers->removeElement($teacher);
             // set the owning side to null (unless already changed)
-            if ($maestro->getCategoria() === $this) {
-                $maestro->setCategoria(null);
+            if ($teacher->getCategoria() === $this) {
+                $teacher->setCategoria(null);
             }
         }
 

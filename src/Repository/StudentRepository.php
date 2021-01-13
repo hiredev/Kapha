@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Aula;
+use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Aula|null find($id, $lockMode = null, $lockVersion = null)
- * @method Aula|null findOneBy(array $criteria, array $orderBy = null)
- * @method Aula[]    findAll()
- * @method Aula[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Student|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Student|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Student[]    findAll()
+ * @method Student[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AulaRepository extends ServiceEntityRepository
+class StudentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Aula::class);
+        parent::__construct($registry, Student::class);
     }
 
     // /**
-    //  * @return Aula[] Returns an array of Aula objects
+    //  * @return Alumno[] Returns an array of Alumno objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class AulaRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Aula
+    public function findOneBySomeField($value): ?Alumno
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')

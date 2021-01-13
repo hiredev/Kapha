@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Entity\Usuario;
+use App\Entity\User;
 use HWI\Bundle\OAuthBundle\Connect\AccountConnectorInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\EntityUserProvider;
@@ -25,54 +25,54 @@ class MyEntityUserProvider extends EntityUserProvider implements AccountConnecto
 
         // unique integer
         $username = $response->getUsername();
-        if (null === $usuario = $this->findUser(array($this->properties[$resourceOwnerName] => $username))) {
-            // TODO: Create the usuario
-            $usuario = new Usuario();
+        if (null === $user = $this->findUser(array($this->properties[$resourceOwnerName] => $username))) {
+            // TODO: Create the user
+            $user = new User();
 
-            $usuario->setEmail($response->getEmail());
-            $usuario->setRoles(array('ROLE_USER'));
+            $user->setEmail($response->getEmail());
+            $user->setRoles(array('ROLE_USER'));
 
-            $usuario->$setterId($username);
-            $usuario->$setterAccessToken($response->getAccessToken());
+            $user->$setterId($username);
+            $user->$setterAccessToken($response->getAccessToken());
 
-            $this->em->persist($usuario);
+            $this->em->persist($user);
             $this->em->flush();
 
-            return $usuario;
+            return $user;
         }
         // JUST FOR FACEBOOK
-        $usuario->setFacebookAccessToken($response->getAccessToken());
+        $user->setFacebookAccessToken($response->getAccessToken());
 
-        return $usuario;
+        return $user;
     }
 
     /**
-     * Connects the response to the usuario object.
+     * Connects the response to the user object.
      *
-     * @param UserInterface $usuario The usuario object
+     * @param UserInterface $user The user object
      * @param UserResponseInterface $response The oauth response
      */
-    public function connect(UserInterface $usuario, UserResponseInterface $response)
+    public function connect(UserInterface $user, UserResponseInterface $response)
     {
-        if (!$usuario instanceof Usuario) {
-            throw new UnsupportedUserException(sprintf('Expected an instance of App\Model\User, but got "%s".', get_class($usuario)));
+        if (!$user instanceof User) {
+            throw new UnsupportedUserException(sprintf('Expected an instance of App\Model\User, but got "%s".', get_class($user)));
         }
 
         $property = $this->getProperty($response);
         $username = $response->getUsername();
 
-        if (null !== $previousUsuario = $this->registry->getRepository(Usuario::class)->findOneBy(array($property => $username))) {
+        if (null !== $previousUser = $this->registry->getRepository(User::class)->findOneBy(array($property => $username))) {
             // 'disconnect' previously connected users
-            $this->disconnect($previousUsuario, $response);
+            $this->disconnect($previousUser, $response);
         }
 
 
         $serviceName = $response->getResourceOwner()->getName();
         $setter = 'set'. ucfirst($serviceName) . 'AccessToken';
 
-        $usuario->$setter($response->getAccessToken());
+        $user->$setter($response->getAccessToken());
 
-        $this->updateUser($usuario, $response);
+        $this->updateUser($user, $response);
     }
 
     /**
@@ -99,30 +99,30 @@ class MyEntityUserProvider extends EntityUserProvider implements AccountConnecto
     /**
      * Disconnects a user.
      *
-     * @param UserInterface $usuario
+     * @param UserInterface $user
      * @param UserResponseInterface $response
      * @throws \TypeError
      */
-    public function disconnect(UserInterface $usuario, UserResponseInterface $response)
+    public function disconnect(UserInterface $user, UserResponseInterface $response)
     {
         $property = $this->getProperty($response);
         $accessor = PropertyAccess::createPropertyAccessor();
 
-        $accessor->setValue($usuario, $property, null);
+        $accessor->setValue($user, $property, null);
 
-        $this->updateUsuario($usuario, $response);
+        $this->updateUser($user, $response);
     }
 
     /**
      * Update the user and persist the changes to the database.
-     * @param UserInterface $usuario
+     * @param UserInterface $user
      * @param UserResponseInterface $response
      */
-    private function updateUser(UserInterface $usuario, UserResponseInterface $response)
+    private function updateUser(UserInterface $user, UserResponseInterface $response)
     {
-        $usuario->setEmail($response->getEmail());
+        $user->setEmail($response->getEmail());
 
-        $this->em->persist($usuario);
+        $this->em->persist($user);
         $this->em->flush();
     }
 }

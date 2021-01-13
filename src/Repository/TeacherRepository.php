@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Maestro;
+use App\Entity\Teacher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Maestro|null find($id, $lockMode = null, $lockVersion = null)
- * @method Maestro|null findOneBy(array $criteria, array $orderBy = null)
- * @method Maestro[]    findAll()
- * @method Maestro[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Teacher|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Teacher|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Teacher[]    findAll()
+ * @method Teacher[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MaestroRepository extends ServiceEntityRepository
+class TeacherRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Maestro::class);
+        parent::__construct($registry, Teacher::class);
     }
 
     // /**

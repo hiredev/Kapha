@@ -8,7 +8,7 @@ use App\Entity\Categoria;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class MaestroController extends AbstractController
+class TeacherController extends AbstractController
 {
     protected $em;
 
@@ -17,13 +17,13 @@ class MaestroController extends AbstractController
     }
 
     /**
-     * @Route("/ver_maestros/{categoria}", name="maestros")
+     * @Route("/ver_maestros/{categoria}", name="teachers")
      */
     public function index($categoria = '')
     {        
         $categorias = $this->em->getRepository(Categoria::class)->findAll();
 
-        return $this->render('maestro/index.html.twig', [
+        return $this->render('teacher/index.html.twig', [
             'categorias' => $categorias,
         ]);
     }

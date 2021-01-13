@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Alumno;
+use App\Entity\Student;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 
@@ -15,11 +15,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
-class AlumnoCrudController extends AbstractCrudController
+class StudentCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Alumno::class;
+        return Student::class;
     }
 
     public function configureFields(string $pageName): iterable
@@ -36,27 +36,27 @@ class AlumnoCrudController extends AbstractCrudController
     {
         $this->crudUrlGenerator = $this->get(CrudUrlGenerator::class);
 
-        $verUsuario = Action::new('verUsuario','Usuario')->linkToUrl(function (Alumno $entity) {
+        $verUser = Action::new('verUser','User')->linkToUrl(function (Student $entity) {
             return  $this->crudUrlGenerator
             ->build()
-            ->setController(UsuarioCrudController::class)
+            ->setController(UserCrudController::class)
             ->setAction(Action::DETAIL)
-            ->setEntityId($entity->getUsuario()->getId());                
+            ->setEntityId($entity->getUser()->getId());                
         });
 
-        $editarUsuario = Action::new('editarUsuario','Modificar Usuario')->linkToUrl(function (Alumno $entity) {
+        $editarUser = Action::new('editarUser','Modificar User')->linkToUrl(function (Student $entity) {
             return  $this->crudUrlGenerator
             ->build()
-            ->setController(UsuarioCrudController::class)
+            ->setController(UserCrudController::class)
             ->setAction(Action::EDIT)
-            ->setEntityId($entity->getUsuario()->getId());                
+            ->setEntityId($entity->getUser()->getId());                
         });
 
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->add(Crud::PAGE_INDEX, $verUsuario)
+            ->add(Crud::PAGE_INDEX, $verUser)
             ->add(Crud::PAGE_EDIT, Action::INDEX)
-            ->add(Crud::PAGE_EDIT, $editarUsuario)
+            ->add(Crud::PAGE_EDIT, $editarUser)
             ->add(Crud::PAGE_NEW, Action::INDEX);
     }    
 }

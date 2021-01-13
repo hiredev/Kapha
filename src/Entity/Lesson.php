@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\ProgramaRepository;
+use App\Repository\LessonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,10 +12,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 /**
- * @ORM\Entity(repositoryClass=ProgramaRepository::class)
+ * @ORM\Entity(repositoryClass=LessonRepository::class)
  * @Vich\Uploadable
  */
-class Programa
+class Lesson
 {
     /**
      * @ORM\Id
@@ -40,6 +40,11 @@ class Programa
     private $descripcion;
 
     /**
+     * @ORM\Column(type="string", length=150)
+     */
+    private $link;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @var string
      */
@@ -52,30 +57,30 @@ class Programa
     private $imagenFile;
 
     /**
-     * @ORM\OneToMany(targetEntity=Aula::class, mappedBy="programa")
-     */
-    private $aulas;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $fecha;
 
-    public function getFecha(): ?\DateTimeInterface
-    {
-        return $this->fecha;
-    }
+    /**
+     * @ORM\ManyToOne(targetEntity=Teacher::class, inversedBy="lessons")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $teacher;
 
-    public function setFecha(\DateTimeInterface $fecha): self
-    {
-        $this->fecha = $fecha;
+    /**
+     * @ORM\ManyToMany(targetEntity=Student::class, inversedBy="lessons")
+     */
+    private $students;
 
-        return $this;
-    }
+    /**
+     * @ORM\ManyToOne(targetEntity=Course::class, inversedBy="lessons")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $course;
 
     public function __construct()
     {
-        $this->aulas = new ArrayCollection();
+        $this->students = new ArrayCollection();
         $this->fecha = new \DateTime('now');
     }
 
@@ -106,7 +111,7 @@ class Programa
         $this->slug = $slug;
 
         return $this;
-    }
+    }    
 
     public function getDescripcion(): ?string
     {
@@ -120,40 +125,79 @@ class Programa
         return $this;
     }
 
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(string $link): self
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    public function getFecha(): ?\DateTimeInterface
+    {
+        return $this->fecha;
+    }
+
+    public function setFecha(\DateTimeInterface $fecha): self
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    public function getTeacher(): ?Teacher
+    {
+        return $this->teacher;
+    }
+
+    public function setTeacher(?Teacher $teacher): self
+    {
+        $this->teacher = $teacher;
+
+        return $this;
+    }
+
     /**
-     * @return Collection|Aula[]
+     * @return Collection|Student[]
      */
-    public function getAulas(): Collection
+    public function getStudents(): Collection
     {
-        return $this->aulas;
+        return $this->students;
     }
 
-    public function addAula(Aula $aula): self
+    public function addStudent(Student $student): self
     {
-        if (!$this->aulas->contains($aula)) {
-            $this->aulas[] = $aula;
-            $aula->setPrograma($this);
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
         }
 
         return $this;
     }
 
-    public function removeAula(Aula $aula): self
+    public function removeStudent(Student $student): self
     {
-        if ($this->aulas->contains($aula)) {
-            $this->aulas->removeElement($aula);
-            // set the owning side to null (unless already changed)
-            if ($aula->getPrograma() === $this) {
-                $aula->setPrograma(null);
-            }
+        if ($this->students->contains($student)) {
+            $this->students->removeElement($student);
         }
 
         return $this;
     }
 
-    public function __toString(){
-        return $this->getTitulo();
-    }    
+    public function getCourse(): ?Course
+    {
+        return $this->course;
+    }
+
+    public function setCourse(?Course $course): self
+    {
+        $this->course = $course;
+
+        return $this;
+    }
 
     public function setImagenFile(File $imagen = null)
     {
@@ -182,4 +226,8 @@ class Programa
     {
         return $this->imagen;
     }    
+
+    public function __toString(){
+        return $this->getTitulo();
+    }
 }

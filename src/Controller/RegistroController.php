@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Alumno;
-use App\Entity\Maestro;
-use App\Entity\Usuario;
-use App\Form\AlumnoType;
-use App\Form\MaestroType;
+use App\Entity\Student;
+use App\Entity\Teacher;
+use App\Entity\User;
+use App\Form\StudentType;
+use App\Form\TeacherType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,74 +21,74 @@ class RegistroController extends AbstractController
     public function index()
     {
         return $this->render('registro/index.html.twig', [
-            'registro_alumno' => 'alumno',
-            'registro_maestro' => 'maestro'
+            'registro_student' => 'student',
+            'registro_teacher' => 'teacher'
         ]);
     }
 
     /**
-     * @Route("/registro/alumno", name="registro_alumno")
+     * @Route("/registro/student", name="registro_student")
      */
-    public function alumno(Request $request){
-        $alumno = new Alumno();
-        $form = $this->createForm(AlumnoType::class, $alumno);
+    public function student(Request $request){
+        $student = new Student();
+        $form = $this->createForm(StudentType::class, $student);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $alumno = $form->getData();
+            $student = $form->getData();
             $email = $form->get('email')->getData();            
             $password = $form->get('password')->getData();
 
-            $usuario = new Usuario();
-            $usuario->setEmail($email);
-            $usuario->setRoles(array('ROLE_USER'));            
+            $user = new User();
+            $user->setEmail($email);
+            $user->setRoles(array('ROLE_USER'));            
  
-            $usuario->setPassword($password);    
+            $user->setPassword($password);    
 
-            $alumno->setUsuario($usuario);
+            $student->setUser($user);
 
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($alumno);
+            $entityManager->persist($student);
             $entityManager->flush();
     
             return $this->redirectToRoute('registro_success');
         }
 
         return $this->render(
-            'registro/alumno.html.twig',
+            'registro/student.html.twig',
             ['formulario' => $form->createView()]
         );
     }
 
     /**
-     * @Route("/registro/maestro", name="registro_maestro")
+     * @Route("/registro/teacher", name="registro_teacher")
      */
-    public function maestro(Request $request){
-        $maestro = new Maestro();
-        $form = $this->createForm(MaestroType::class, $maestro);
+    public function teacher(Request $request){
+        $teacher = new Teacher();
+        $form = $this->createForm(TeacherType::class, $teacher);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $maestro = $form->getData();
+            $teacher = $form->getData();
             $email = $form->get('email')->getData();            
             $password = $form->get('password')->getData();
 
-            $usuario = new Usuario();
-            $usuario->setEmail($email);
-            $usuario->setRoles(array('ROLE_USER','ROLE_MAESTRO'));            
-            $usuario->setPassword($password);
+            $user = new User();
+            $user->setEmail($email);
+            $user->setRoles(array('ROLE_USER','ROLE_TEACHER'));            
+            $user->setPassword($password);
 
-            $maestro->setUsuario($usuario);
+            $teacher->setUser($user);
 
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($maestro);
+            $entityManager->persist($teacher);
             $entityManager->flush();
     
             return $this->redirectToRoute('registro_success');
         }
 
         return $this->render(
-            'registro/maestro.html.twig',
+            'registro/teacher.html.twig',
             ['formulario' => $form->createView()]
         );
     }

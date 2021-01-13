@@ -2,13 +2,14 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Alumno;
-use App\Entity\Maestro;
-use App\Entity\Usuario;
-use App\Entity\Aula;
+use App\Entity\Student;
+use App\Entity\Teacher;
+use App\Entity\User;
+use App\Entity\Lesson;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeCrudActionEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
@@ -31,47 +32,47 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            BeforeEntityPersistedEvent::class => ['crearUsuarioRelacionado'],
-            BeforeEntityUpdatedEvent::class => ['actualizandoUsuario'],
+            BeforeEntityPersistedEvent::class => ['crearUserRelacionado'],
+            BeforeEntityUpdatedEvent::class => ['actualizandoUser'],
             BeforeCrudActionEvent::class => ['verificarPermisos']
         ];
     }
 
-    public function crearUsuarioRelacionado(BeforeEntityPersistedEvent $event)
+    public function crearUserRelacionado(BeforeEntityPersistedEvent $event)
     {
         $entity = $event->getEntityInstance();
-        $usuario = $this->tokenStorage->getToken()->getUser();
+        $user = $this->tokenStorage->getToken()->getUser();
 
-        if (($entity instanceof Maestro)) {
-            $usuario = $entity->getUsuario();
-            if(!$usuario){
-                $usuario = new Usuario();
-                $entity->setUsuario($usuario);
-                $usuario->setEmail('xxxx'.rand().'@maestro.com');                
+        if (($entity instanceof Teacher)) {
+            $user = $entity->getUser();
+            if(!$user){
+                $user = new User();
+                $entity->setUser($user);
+                $user->setEmail('xxxx'.rand().'@teacher.com');                
             }
-            $usuario->setRoles(array('ROLE_USER','ROLE_MAESTRO'));
+            $user->setRoles(array('ROLE_USER','ROLE_TEACHER'));
         }
 
-        if (($entity instanceof Alumno)) {
-            $usuario = $entity->getUsuario();
-            if(!$usuario){
-                $usuario = new Usuario();
-                $entity->setUsuario($usuario);
-                $usuario->setEmail('xxxx'.rand().'@maestro.com');                
+        if (($entity instanceof Student)) {
+            $user = $entity->getUser();
+            if(!$user){
+                $user = new User();
+                $entity->setUser($user);
+                $user->setEmail('xxxx'.rand().'@teacher.com');                
             }
-            $usuario->setRoles(array('ROLE_USER'));
+            $user->setRoles(array('ROLE_USER'));
         }
 
-        if (($entity instanceof Aula)) {            
-            if ($this->authorizationChecker->isGranted('ROLE_MAESTRO') && !$this->authorizationChecker->isGranted('ROLE_ADMIN') && !$this->authorizationChecker->isGranted('ROLE_MODERADOR')){
-                $entity->setMaestro($usuario->getMaestro());
+        if (($entity instanceof Lesson)) {
+            if ($this->authorizationChecker->isGranted('ROLE_TEACHER') && !$this->authorizationChecker->isGranted('ROLE_ADMIN') && !$this->authorizationChecker->isGranted('ROLE_MODERADOR')){
+                $entity->setTeacher($user->getTeacher());
             }
         }
     }
 
-    public function actualizandoUsuario(BeforeEntityUpdatedEvent $event){
+    public function actualizandoUser(BeforeEntityUpdatedEvent $event){
         $entity = $event->getEntityInstance();
-        if (($entity instanceof Usuario)) {
+        if (($entity instanceof User)) {
             $newPassword = $entity->getNewPassword();
             if($newPassword){
                 $entity->setPassword($newPassword);
@@ -80,9 +81,9 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     }
 
     public function verificarPermisos(BeforeCrudActionEvent $event){
-        $usuario = $this->tokenStorage->getToken()->getUser();
+        $user = $this->tokenStorage->getToken()->getUser();
 
-        if(!$usuario){
+        if(!$user){
             throw new AccessDeniedException();
         }
 
@@ -92,20 +93,20 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             if($entity){
                 $instance = $entity->getInstance();
 
-                if($instance instanceof Maestro){
-                    if($instance->getUsuario()->getId() != $usuario->getId()){
+                if($instance instanceof Teacher){
+                    if($instance->getUser()->getId() != $user->getId()){
                         dd($instance);
-                        throw new AccessDeniedException();
+                        throw new AccessDeniedHttpException();
                     }                
                 }
-                if($instance instanceof Usuario){
-                    if($instance->getId() != $usuario->getId()){
+                if($instance instanceof User){
+                    if($instance->getId() != $user->getId()){
                         throw new AccessDeniedException();
                     }                
                 }            
 
-                if($instance instanceof Aula){
-                    if($instance->getMaestro()->getUsuario()->getId() != $usuario->getId()){
+                if($instance instanceof Lesson){
+                    if($instance->getTeacher()->getUser()->getId() != $user->getId()){
                         throw new AccessDeniedException();
                     }
                 }

@@ -52,14 +52,14 @@ class User implements UserInterface
     private $fecha;
 
     /**
-     * @ORM\OneToOne(targetEntity=Alumno::class, mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Student::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $alumno;
+    private $student;
 
     /**
-     * @ORM\OneToOne(targetEntity=Maestro::class, mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Teacher::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $maestro;
+    private $teacher;
 
 
     public function getId(): ?int
@@ -99,6 +99,11 @@ class User implements UserInterface
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->roles);
     }
 
     public function setRoles(array $roles): self
@@ -188,37 +193,41 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getAlumno(): ?Alumno
+    public function getStudent(): ?Student
     {
-        return $this->alumno;
+        return $this->student;
     }
 
-    public function setAlumno(Alumno $alumno): self
+    public function setStudent(Student $student): self
     {
-        $this->alumno = $alumno;
+        $this->student = $student;
 
         // set the owning side of the relation if necessary
-        if ($alumno->getUser() !== $this) {
-            $alumno->setUser($this);
+        if ($student->getUser() !== $this) {
+            $student->setUser($this);
         }
 
         return $this;
     }
 
-    public function getMaestro(): ?Maestro
+    public function getTeacher(): ?Teacher
     {
-        return $this->maestro;
+        return $this->teacher;
     }
 
-    public function setMaestro(Maestro $maestro): self
+    public function setTeacher(Teacher $teacher): self
     {
-        $this->maestro = $maestro;
+        $this->teacher = $teacher;
 
         // set the owning side of the relation if necessary
-        if ($maestro->getUser() !== $this) {
-            $maestro->setUser($this);
+        if ($teacher->getUser() !== $this) {
+            $teacher->setUser($this);
         }
 
         return $this;
     }
+
+    public function __construct(){
+        $this->setfecha(new \Datetime());
+    }    
 }

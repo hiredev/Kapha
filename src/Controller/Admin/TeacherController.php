@@ -2,9 +2,9 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Maestro;
-use App\Entity\Aula;
-use App\Entity\Usuario;
+use App\Entity\Teacher;
+use App\Entity\Lesson;
+use App\Entity\User;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,15 +15,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-class MaestroController extends AbstractDashboardController
+class TeacherController extends AbstractDashboardController
 {
     /**
-     * @Route("/maestro", name="maestro")
+     * @Route("/teacher", name="teacher")
      */
     public function index(): Response
     {
         $routeBuilder = $this->get(CrudUrlGenerator::class)->build();
-        return $this->redirect($routeBuilder->setController(AulaCrudController::class)->generateUrl());
+        return $this->redirect($routeBuilder->setController(LessonCrudController::class)->generateUrl());
     }
 
     public function configureDashboard(): Dashboard
@@ -36,14 +36,14 @@ class MaestroController extends AbstractDashboardController
     {
         //yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
 
-        yield MenuItem::section('Aulas');
-        yield MenuItem::linkToCrud('Aulas', 'fa fa-users', Aula::class);
+        yield MenuItem::section('Lessons');
+        yield MenuItem::linkToCrud('Aulas', 'fa fa-users', Lesson::class);
 
         yield MenuItem::section('Perfil');
-        yield MenuItem::linkToCrud('Perfil', 'fa fa-users', Maestro::class)
+        yield MenuItem::linkToCrud('Perfil', 'fa fa-users', Teacher::class)
             ->setAction('edit')
-            ->setEntityId($this->getUser()->getMaestro()->getId());
-        yield MenuItem::linkToCrud('Acceso', 'fa fa-users', Usuario::class)
+            ->setEntityId($this->getUser()->getTeacher()->getId());
+        yield MenuItem::linkToCrud('Acceso', 'fa fa-users', User::class)
             ->setAction('edit')
             ->setEntityId($this->getUser()->getId());
     }

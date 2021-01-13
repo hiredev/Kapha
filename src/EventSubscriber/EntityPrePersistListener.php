@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener;
+namespace App\EventSubscriber;
 
 use App\Entity\Product;
 use Doctrine\Persistence\Event\LifecycleEventArgs;

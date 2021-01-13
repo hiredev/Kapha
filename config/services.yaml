@@ -4,8 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    app.path.programa_image: images/programa
-    app.path.aula_image: images/aula
+    app.path.course_image: images/programa
+    app.path.lesson_image: images/aula
     app.zoom.client_id: S5NOG1rMTsKJa7RvQSUojA
     app.zoom.client_secret: kWnnvXrSD0ZADqNNTBJSC8GdTtdUxJ33
 services:
@@ -37,7 +37,7 @@ services:
         class: App\Security\MyEntityUserProvider
         arguments:
             - '@Doctrine\Persistence\ManagerRegistry'
-            - 'App\Entity\Usuario'
+            - 'App\Entity\User'
             - { facebook: facebookID }
         # class: HWI\Bundle\OAuthBundle\Security\Core\User\FOSUBUserProvider
         # arguments:
@@ -48,7 +48,7 @@ services:
         $client_id: S5NOG1rMTsKJa7RvQSUojA
         $client_secret: kWnnvXrSD0ZADqNNTBJSC8GdTtdUxJ33
         
-    App\EventListener\MyEntityListener:
+    App\EventSubscriber\MyEntityListener:
         autowire: true 
         tags:
             - { name: doctrine.event_listener, event: prePersist }            

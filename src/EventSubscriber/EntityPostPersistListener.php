@@ -1,8 +1,8 @@
 <?php
 
-namespace App\EventListener;
+namespace App\EventSubscriber;
 
-use App\Entity\Usuario;
+use App\Entity\User;
 //use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
@@ -20,7 +20,7 @@ class EntityPostPersistListener
     // both the entity object of the event and the entity manager itself
     public function postPersist(LifecycleEventArgs $args)
     {
-        throw new Exception();
+        throw new \Exception();
         $entity = $args->getObject();
 
         $update = false;
@@ -30,7 +30,7 @@ class EntityPostPersistListener
             $update = true;
         }
 
-        if ($entity instanceof Usuario){
+        if ($entity instanceof User){
             $encoded = $this->passwordEncoder->encodePassword($entity, $entity->getPassword());
             $entity->setPassword($encoded);
             $update = true;

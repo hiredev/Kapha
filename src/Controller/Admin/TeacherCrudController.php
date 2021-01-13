@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Maestro;
+use App\Entity\Teacher;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 
@@ -15,12 +15,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
-class MaestroCrudController extends AbstractCrudController
+class TeacherCrudController extends AbstractCrudController
 {
 
     public static function getEntityFqcn(): string
     {
-        return Maestro::class;
+        return Teacher::class;
     }
 
     public function configureFields(string $pageName): iterable
@@ -31,7 +31,7 @@ class MaestroCrudController extends AbstractCrudController
             TextField::new('nombre'),
             TextField::new('apellido'),
             AssociationField::new('categoria'),
-            AssociationField::new('aulas')->onlyOnIndex()
+            AssociationField::new('lessons')->onlyOnIndex()
         ];
     }
 
@@ -40,27 +40,27 @@ class MaestroCrudController extends AbstractCrudController
         $this->crudUrlGenerator = $this->get(CrudUrlGenerator::class);
         $roles = $this->getUser()->getRoles();
 
-        $verUsuario = Action::new('verUsuario','Usuario')->linkToUrl(function (Maestro $entity) {
+        $verUser = Action::new('verUser','User')->linkToUrl(function (Teacher $entity) {
             return  $this->crudUrlGenerator
             ->build()
-            ->setController(UsuarioCrudController::class)
+            ->setController(UserCrudController::class)
             ->setAction(Action::DETAIL)
-            ->setEntityId($entity->getUsuario()->getId());                
+            ->setEntityId($entity->getUser()->getId());                
         });
 
-        $editarUsuario = Action::new('editarUsuario','Modificar Usuario')->linkToUrl(function (Maestro $entity) {
+        $editarUser = Action::new('editarUser','Modificar User')->linkToUrl(function (Teacher $entity) {
             return  $this->crudUrlGenerator
             ->build()
-            ->setController(UsuarioCrudController::class)
+            ->setController(UserCrudController::class)
             ->setAction(Action::EDIT)
-            ->setEntityId($entity->getUsuario()->getId());                
+            ->setEntityId($entity->getUser()->getId());                
         });
 
         $actions = $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->add(Crud::PAGE_INDEX, $verUsuario)
+            ->add(Crud::PAGE_INDEX, $verUser)
             ->add(Crud::PAGE_EDIT, Action::INDEX)
-            ->add(Crud::PAGE_EDIT, $editarUsuario)
+            ->add(Crud::PAGE_EDIT, $editarUser)
             ->add(Crud::PAGE_NEW, Action::INDEX)
             ->setPermission(Action::INDEX, 'ROLE_ADMIN')
             ->setPermission(Action::INDEX, 'ROLE_MODERADOR')

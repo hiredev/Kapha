@@ -1,8 +1,8 @@
 <?php
 
-namespace App\EventListener;
+namespace App\EventSubscriber;
 
-use App\Entity\Usuario;
+use App\Entity\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -11,19 +11,22 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 
 class MyEntityListener
-{    
+{
     private $passwordEncoder;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder){
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function prePersist(LifecycleEventArgs $args){
+    public function prePersist(LifecycleEventArgs $args)
+    {
         $this->preQuery($args);
     }
 
-    public function preUpdate(LifecycleEventArgs $args){
-        $this->preQuery($args);        
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        $this->preQuery($args);
     }
 
     public function postPersist(LifecycleEventArgs $args)
@@ -46,28 +49,29 @@ class MyEntityListener
         $entityManager->persist($entity);
         $entityManager->flush();
         */
-    }    
+    }
 
 
-    protected function preQuery(LifecycleEventArgs $args){
+    protected function preQuery(LifecycleEventArgs $args)
+    {
         $entity = $args->getObject();
 
-        if (method_exists($entity, 'setFecha')){
-            $entity->setFecha(new \Datetime());         
+        if (method_exists($entity, 'setFecha')) {
+            $entity->setFecha(new \Datetime());
         }
 
-        if (method_exists($entity, 'setSlug')){
+        if (method_exists($entity, 'setSlug')) {
             $slug = '';
 
-            if (method_exists($entity, 'getNombre')){
+            if (method_exists($entity, 'getNombre')) {
                 $slug .= $entity->getNombre() . ' ';
             }
 
-            if (method_exists($entity, 'getApellido')){
+            if (method_exists($entity, 'getApellido')) {
                 $slug .= $entity->getApellido() . ' ';
             }
 
-            if (method_exists($entity, 'getTitulo')){
+            if (method_exists($entity, 'getTitulo')) {
                 $slug .= $entity->getTitulo() . ' ';
             }
 
@@ -78,10 +82,11 @@ class MyEntityListener
             $entity->setSlug($slug);
         }
 
-
-        if ($entity instanceof Usuario){
-            $encoded = $this->passwordEncoder->encodePassword($entity, $entity->getPassword());
-            $entity->setPassword($encoded);            
-        }        
+        if ($entity instanceof User) {
+            if ($entity->getNewPassword() != null) {
+                $encoded = $this->passwordEncoder->encodePassword($entity, $entity->getNewPassword());
+                $entity->setPassword($encoded);
+            }
+        }
     }
 }

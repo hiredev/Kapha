@@ -4,12 +4,12 @@ namespace App\Controller;
 
 
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\ProgramaRepository;
-use App\Entity\Programa;
+use App\Repository\CourseRepository;
+use App\Entity\Course;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProgramaController extends AbstractController
+class CourseController extends AbstractController
 {
 
     protected $em;
@@ -19,14 +19,14 @@ class ProgramaController extends AbstractController
     }
 
     /**
-     * @Route("/ver_aulas/{programa}", name="programas")
+     * @Route("/ver_programas/{programa}", name="programas")
      */
     public function index($programa = '')
     {
-        $programas = $this->em->getRepository(Programa::class)->findAll();
+        $courses = $this->em->getRepository(Course::class)->findAll();
 
-        return $this->render('aula/index.html.twig', [
-            'programas' => $programas
+        return $this->render('programa/index.html.twig', [
+            'programas' => $courses
         ]);
     }
 }

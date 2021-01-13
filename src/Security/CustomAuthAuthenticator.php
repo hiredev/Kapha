@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Entity\Usuario;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,19 +67,19 @@ class CustomAuthAuthenticator extends AbstractFormLoginAuthenticator implements 
             throw new InvalidCsrfTokenException();
         }
 
-        $usuario = $this->entityManager->getRepository(Usuario::class)->findOneBy(['email' => $credentials['email']]);
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
 
-        if (!$usuario) {
+        if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Email could not be found.');
         }
 
-        return $usuario;
+        return $user;
     }
 
-    public function checkCredentials($credentials, UserInterface $usuario)
+    public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($usuario, $credentials['password']);
+        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
     /**
@@ -98,19 +98,20 @@ class CustomAuthAuthenticator extends AbstractFormLoginAuthenticator implements 
 
         $roles = $token->getUser()->getRoles();
 
-        if (in_array('ROLE_ADMIN', $roles)){
-            return new RedirectResponse($this->urlGenerator->generate('admin'));            
-        }        
-
-        if (in_array('ROLE_MODERADOR', $roles)){
-            return new RedirectResponse($this->urlGenerator->generate('moderador'));            
+        if ($token->getUser()->hasRole('ROLE_ADMIN')) {
+            return new RedirectResponse($this->urlGenerator->generate('admin'));
         }
 
-        if (in_array('ROLE_MAESTRO', $roles)){
-            return new RedirectResponse($this->urlGenerator->generate('maestro'));            
+        if (in_array('ROLE_MODERADOR', $roles)) {
+            return new RedirectResponse($this->urlGenerator->generate('moderador'));
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('default'));            
+        if (in_array('ROLE_TEACHER', $roles)) {
+            return new RedirectResponse($this->urlGenerator->generate('teacher'));
+        }
+
+
+        return new RedirectResponse($this->urlGenerator->generate('stu'));
     }
 
     protected function getLoginUrl()

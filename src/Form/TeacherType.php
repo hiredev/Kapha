@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Maestro;
+use App\Entity\Teacher;
 use App\Entity\Categoria;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
@@ -16,7 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
-class MaestroType extends AbstractType
+class TeacherType extends AbstractType
 {
     private $entityManager;
 
@@ -46,14 +46,14 @@ class MaestroType extends AbstractType
             ->add('categoria', ChoiceType::class, [
                 'choices' => $categoriaRepositorio->findAll(),
                 'choice_label' => 'titulo'])    
-            ->add('registrar', SubmitType::class, ['label' => 'Registrar Maestro'])
+            ->add('registrar', SubmitType::class, ['label' => 'Registrar Teacher'])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Maestro::class,
+            'data_class' => Teacher::class,
         ]);
     }
 }

@@ -34,8 +34,8 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
             return new RedirectResponse($this->urlGenerator->generate('moderador'));            
         }
 
-        if (in_array('ROLE_MAESTRO', $roles)){
-            return new RedirectResponse($this->urlGenerator->generate('maestro'));            
+        if (in_array('ROLE_TEACHER', $roles)){
+            return new RedirectResponse($this->urlGenerator->generate('teacher'));            
         }
 
         return new RedirectResponse($this->urlGenerator->generate('default'));

@@ -18,10 +18,10 @@ class Cobranza
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Maestro::class, inversedBy="cobranzas")
+     * @ORM\ManyToOne(targetEntity=Teacher::class, inversedBy="cobranzas")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $maestro;
+    private $teacher;
 
     /**
      * @ORM\Column(type="float")
@@ -48,14 +48,14 @@ class Cobranza
         return $this->id;
     }
 
-    public function getMaestro(): ?Maestro
+    public function getTeacher(): ?Teacher
     {
-        return $this->maestro;
+        return $this->teacher;
     }
 
-    public function setMaestro(?Maestro $maestro): self
+    public function setTeacher(?Teacher $teacher): self
     {
-        $this->maestro = $maestro;
+        $this->teacher = $teacher;
 
         return $this;
     }

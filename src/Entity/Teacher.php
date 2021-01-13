@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\MaestroRepository;
+use App\Repository\TeacherRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=MaestroRepository::class)
+ * @ORM\Entity(repositoryClass=TeacherRepository::class)
  */
-class Maestro
+class Teacher
 {
     /**
      * @ORM\Id
@@ -35,23 +35,23 @@ class Maestro
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity=Cobranza::class, mappedBy="maestro", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Cobranza::class, mappedBy="teacher", orphanRemoval=true)
      */
     private $cobranzas;
 
     /**
-     * @ORM\OneToMany(targetEntity=Aula::class, mappedBy="maestro", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Lesson::class, mappedBy="teacher", orphanRemoval=true)
      */
-    private $aulas;
+    private $lessons;
 
     /**
-     * @ORM\OneToOne(targetEntity=Usuario::class, inversedBy="maestro", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="teacher", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $usuario;
+    private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Categoria::class, inversedBy="maestros")
+     * @ORM\ManyToOne(targetEntity=Categoria::class, inversedBy="teachers")
      * @ORM\JoinColumn(nullable=false)
      */
     private $categoria;
@@ -59,7 +59,7 @@ class Maestro
     public function __construct()
     {
         $this->cobranzas = new ArrayCollection();
-        $this->aulas = new ArrayCollection();
+        $this->lessons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,7 +115,7 @@ class Maestro
     {
         if (!$this->cobranzas->contains($cobranza)) {
             $this->cobranzas[] = $cobranza;
-            $cobranza->setMaestro($this);
+            $cobranza->setTeacher($this);
         }
 
         return $this;
@@ -126,8 +126,8 @@ class Maestro
         if ($this->cobranzas->contains($cobranza)) {
             $this->cobranzas->removeElement($cobranza);
             // set the owning side to null (unless already changed)
-            if ($cobranza->getMaestro() === $this) {
-                $cobranza->setMaestro(null);
+            if ($cobranza->getTeacher() === $this) {
+                $cobranza->setTeacher(null);
             }
         }
 
@@ -135,44 +135,44 @@ class Maestro
     }
 
     /**
-     * @return Collection|Aula[]
+     * @return Collection|Lesson[]
      */
-    public function getAulas(): Collection
+    public function getLessons(): Collection
     {
-        return $this->aulas;
+        return $this->lessons;
     }
 
-    public function addAula(Aula $aula): self
+    public function addLesson(Lesson $lesson): self
     {
-        if (!$this->aulas->contains($aula)) {
-            $this->aulas[] = $aula;
-            $aula->setMaestro($this);
+        if (!$this->lessons->contains($lesson)) {
+            $this->lessons[] = $lesson;
+            $lesson->setTeacher($this);
         }
 
         return $this;
     }
 
-    public function removeAula(Aula $aula): self
+    public function removeLesson(Lesson $lesson): self
     {
-        if ($this->aulas->contains($aula)) {
-            $this->aulas->removeElement($aula);
+        if ($this->lessons->contains($lesson)) {
+            $this->lessons->removeElement($lesson);
             // set the owning side to null (unless already changed)
-            if ($aula->getMaestro() === $this) {
-                $aula->setMaestro(null);
+            if ($lesson->getTeacher() === $this) {
+                $lesson->setTeacher(null);
             }
         }
 
         return $this;
     }
 
-    public function getUsuario(): ?Usuario
+    public function getUser(): ?User
     {
-        return $this->usuario;
+        return $this->user;
     }
 
-    public function setUsuario(Usuario $usuario): self
+    public function setUser(User $user): self
     {
-        $this->usuario = $usuario;
+        $this->user = $user;
 
         return $this;
     }
@@ -191,16 +191,16 @@ class Maestro
 
     public function getEmail(): ?string
     {
-        return $this->usuario ? $this->usuario->getEmail() : '';
+        return $this->user ? $this->user->getEmail() : '';
     }
 
     public function setEmail(string $email): self
     {
-        if(!$this->usuario){
-            $this->usuario = new Usuario;
+        if(!$this->user){
+            $this->user = new User;
         }
 
-        $this->usuario->setEmail($email);
+        $this->user->setEmail($email);
 
         return $this;
     }

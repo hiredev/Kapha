@@ -1,0 +1,10 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        programa_images:
+            uri_prefix:         '%app.path.programa_image%'
+            upload_destination: '%kernel.project_dir%/public/%app.path.programa_image%'
+        aula_images:
+            uri_prefix:         '%app.path.aula_image%'
+            upload_destination: '%kernel.project_dir%/public/%app.path.aula_image%'

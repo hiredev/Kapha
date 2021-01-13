@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello RegistroController!{% endblock %}
+
+{% block header %}
+<div class="btn btn-blue btn-block btn-marketing rounded-pill col-md-12">
+<a href="{{ path('registro_alumno') }}" style="color: white">Registrar Alumno</a>
+</div>
+<br><br><br>
+<div class="btn btn-blue btn-block btn-marketing rounded-pill col-md-12">
+<a href="{{ path('registro_maestro') }}" style="color: white">Registrar Maestro</a>
+</div>
+{% endblock %}

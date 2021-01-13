@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Programas{% endblock %}
+
+{% block body %}
+<section class="bg-white py-10">
+<div class="container">
+{% for programa in programas %}
+{{ programa.titulo }}
+{% endfor %}
+</div>
+</div>
+<style>
+.page-header{
+    padding-top: 0px;
+    padding-bottom: 0px;    
+}
+</style>
+{% endblock %}

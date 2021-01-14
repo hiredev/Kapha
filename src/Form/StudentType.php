@@ -18,10 +18,12 @@ class StudentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre', TextType::class, [
-                'label' => 'nombre'
+            ->add('firstName', TextType::class, [
+                'label' => 'Nombre'
             ])
-            ->add('apellido', TextType::class)
+            ->add('lastName', TextType::class, [
+                'label' => 'Apellido'
+            ])
             ->add('email', EmailType::class, ['mapped' => false])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,

@@ -1,118 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-        <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
-        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-        {% endblock %}
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png"/>
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        <link href="{{ asset('css/styles.css') }}" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+    {% endblock %}
 
-        {% block javascripts_head %}
+    {% block javascripts_head %}
         <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
-        {% endblock %}
-    </head>
-    <body>
-        <div id="layoutDefault">
-            <div id="layoutDefault_content">
-                <main>
+    {% endblock %}
+</head>
+<body>
+<div id="layoutDefault">
+    <div id="layoutDefault_content">
+        <main>
 
-                    {{ render(controller('App\\Controller\\DefaultController::menu')) }}
+            {{ render(controller('App\\Controller\\DefaultController::menu')) }}
 
-                    <header class="page-header page-header-dark bg-gradient-primary-to-secondary">
-                        <div class="page-header-content pt-10">
-                            <div class="container">
-                                {% block header %}{% endblock %}
-                            </div>
-                        </div>
-                        {% block header_image %}{% endblock %}
-                    </header>
-
-                    {% block body %}
-
-                    {% endblock %}
-                </main>
-            </div>
-            <div id="layoutDefault_footer">
-                <footer class="footer pt-10 pb-5 mt-auto bg-dark footer-dark">
+            <header class="page-header page-header-dark bg-gradient-primary-to-secondary">
+                <div class="page-header-content pt-10">
                     <div class="container">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <div class="footer-brand">Kapha.lat</div>
-                                <div class="mb-3">Yoga para todos</div>
-                                <div class="icon-list-social mb-5">
-                                    <a class="icon-list-social-link" href="javascript:void(0);"><i class="fab fa-instagram"></i></a><a class="icon-list-social-link" href="javascript:void(0);"><i class="fab fa-facebook"></i></a><a class="icon-list-social-link" href="javascript:void(0);"><i class="fab fa-github"></i></a><a class="icon-list-social-link" href="javascript:void(0);"><i class="fab fa-twitter"></i></a>
-                                </div>
-                            </div>
-                            <div class="col-lg-9">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
-                                        <div class="text-uppercase-expanded text-xs mb-4">Mi Cuenta</div>
-                                        <ul class="list-unstyled mb-0">
-                                            <li class="mb-2"><a href="javascript:void(0);">Inicia sesión</a></li>
-                                            <li class="mb-2"><a href="javascript:void(0);">Regístrate</a></li>
-                                            <li class="mb-2"><a href="javascript:void(0);">Mis programas</a></li>
-                                            <li><a href="javascript:void(0);">Calendario</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
-                                        <div class="text-uppercase-expanded text-xs mb-4">FAQs</div>
-                                        <ul class="list-unstyled mb-0">
-                                            <li class="mb-2"><a href="javascript:void(0);">Reinicio de contraseña</a></li>
-                                            <li class="mb-2"><a href="javascript:void(0);">Métodos de Pago</a></li>
-                                            <li class="mb-2"><a href="javascript:void(0);">Cancelaciones</a></li>
-                                            <li><a href="javascript:void(0);">Requisitos técnicos</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
-                                        <div class="text-uppercase-expanded text-xs mb-4">Información</div>
-                                        <ul class="list-unstyled mb-0">
-                                            <li class="mb-2"><a href="javascript:void(0);">Términos y condiciones</a></li>
-                                            <li class="mb-2"><a href="javascript:void(0);">Aviso de privacidad</a></li>
-                                            <li class="mb-2"><a href="javascript:void(0);">Tratamiento de datos</a></li>
-                                            <li><a href="javascript:void(0);">Bolsa de trabajo</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-lg-3 col-md-6">
-                                        <div class="text-uppercase-expanded text-xs mb-4">Síguenos</div>
-                                        <ul class="list-unstyled mb-0">
-                                            <li class="mb-2"><a href="{{ url('privacy_policy') }}">Facebook</a></li>
-                                            <li class="mb-2"><a href="javascript:void(0);">Instagram</a></li>
-                                            <li><a href="javascript:void(0);">Twitter</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                        {% block header %}{% endblock %}
+                    </div>
+                </div>
+                {% block header_image %}{% endblock %}
+            </header>
+
+            {% block body %}
+
+            {% endblock %}
+        </main>
+    </div>
+    <div id="layoutDefault_footer">
+        <footer class="footer pt-10 pb-5 mt-auto bg-dark footer-dark">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="footer-brand">Kapha.lat</div>
+                        <div class="mb-3">Yoga para todos</div>
+                        <div class="icon-list-social mb-5">
+                            <a class="icon-list-social-link" href="javascript:void(0);"><i class="fab fa-instagram"></i></a><a class="icon-list-social-link" href="javascript:void(0);"><i class="fab fa-facebook"></i></a><a class="icon-list-social-link" href="javascript:void(0);"><i class="fab fa-github"></i></a><a class="icon-list-social-link" href="javascript:void(0);"><i class="fab fa-twitter"></i></a>
                         </div>
-                        <hr class="my-5" />
-                        <div class="row align-items-center">
-                            <div class="col-md-6 small">Copyright &copy; Kapha.Lat 2021</div>
-                            <div class="col-md-6 text-md-right small">
-                                <a href="javascript:void(0);">Desarrollado por Wesdap.com</a>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+                                <div class="text-uppercase-expanded text-xs mb-4">Mi Cuenta</div>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2"><a href="javascript:void(0);">Inicia sesión</a></li>
+                                    <li class="mb-2"><a href="javascript:void(0);">Regístrate</a></li>
+                                    <li class="mb-2"><a href="javascript:void(0);">Mis programas</a></li>
+                                    <li><a href="javascript:void(0);">Calendario</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+                                <div class="text-uppercase-expanded text-xs mb-4">FAQs</div>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2"><a href="javascript:void(0);">Reinicio de contraseña</a></li>
+                                    <li class="mb-2"><a href="javascript:void(0);">Métodos de Pago</a></li>
+                                    <li class="mb-2"><a href="javascript:void(0);">Cancelaciones</a></li>
+                                    <li><a href="javascript:void(0);">Requisitos técnicos</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
+                                <div class="text-uppercase-expanded text-xs mb-4">Información</div>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2"><a href="javascript:void(0);">Términos y condiciones</a></li>
+                                    <li class="mb-2"><a href="javascript:void(0);">Aviso de privacidad</a></li>
+                                    <li class="mb-2"><a href="javascript:void(0);">Tratamiento de datos</a></li>
+                                    <li><a href="javascript:void(0);">Bolsa de trabajo</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="text-uppercase-expanded text-xs mb-4">Síguenos</div>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2"><a href="{{ url('privacy_policy') }}">Facebook</a></li>
+                                    <li class="mb-2"><a href="javascript:void(0);">Instagram</a></li>
+                                    <li><a href="javascript:void(0);">Twitter</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                </footer>
+                </div>
+                <hr class="my-5"/>
+                <div class="row align-items-center">
+                    <div class="col-md-6 small">Copyright &copy; Kapha.Lat 2021</div>
+                    <div class="col-md-6 text-md-right small">
+                        <a href="javascript:void(0);">Desarrollado por Wesdap.com</a>
+                    </div>
+                </div>
             </div>
-        </div>
-        {% block javascripts %}
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('js/scripts.js') }}"></script>
-        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-        <script>
-            AOS.init({
-                disable: 'mobile',
-                duration: 600,
-                once: true
-            });
-        </script>
-        {% endblock %}
-    </body>
+        </footer>
+    </div>
+</div>
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            disable: 'mobile',
+            duration: 600,
+            once: true
+        });
+    </script>
+{% endblock %}
+</body>
 </html>

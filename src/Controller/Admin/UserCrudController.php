@@ -45,10 +45,10 @@ class UserCrudController extends AbstractCrudController
             ->add(Crud::PAGE_EDIT, Action::INDEX)
             ->add(Crud::PAGE_NEW, Action::INDEX)
             ->setPermission(Action::INDEX, 'ROLE_ADMIN')
-            ->setPermission(Action::INDEX, 'ROLE_MODERADOR')
+            ->setPermission(Action::INDEX, 'ROLE_MODERATOR')
             ->setPermission(Action::NEW, 'ROLE_ADMIN')
-            ->setPermission(Action::NEW, 'ROLE_MODERADOR')
+            ->setPermission(Action::NEW, 'ROLE_MODERATOR')
             ->setPermission(Action::SAVE_AND_RETURN, 'ROLE_ADMIN')
-            ->setPermission(Action::SAVE_AND_RETURN, 'ROLE_MODERADOR');
+            ->setPermission(Action::SAVE_AND_RETURN, 'ROLE_MODERATOR');
     }
 }

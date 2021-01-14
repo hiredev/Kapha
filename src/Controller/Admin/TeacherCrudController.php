@@ -28,8 +28,8 @@ class TeacherCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             EmailField::new('email'),
-            TextField::new('nombre'),
-            TextField::new('apellido'),
+            TextField::new('firstName', 'Nombre'),
+            TextField::new('lastName', 'Apellido'),
             AssociationField::new('categoria'),
             AssociationField::new('lessons')->onlyOnIndex()
         ];
@@ -40,20 +40,18 @@ class TeacherCrudController extends AbstractCrudController
         $this->crudUrlGenerator = $this->get(CrudUrlGenerator::class);
         $roles = $this->getUser()->getRoles();
 
-        $verUser = Action::new('verUser','User')->linkToUrl(function (Teacher $entity) {
-            return  $this->crudUrlGenerator
-            ->build()
-            ->setController(UserCrudController::class)
-            ->setAction(Action::DETAIL)
-            ->setEntityId($entity->getUser()->getId());                
+        $verUser = Action::new('verUser', 'Usuario')->linkToUrl(function (Teacher $entity) {
+            return $this->crudUrlGenerator->build()
+                ->setController(UserCrudController::class)
+                ->setAction(Action::DETAIL)
+                ->setEntityId($entity->getUser()->getId());
         });
 
-        $editarUser = Action::new('editarUser','Modificar User')->linkToUrl(function (Teacher $entity) {
-            return  $this->crudUrlGenerator
-            ->build()
-            ->setController(UserCrudController::class)
-            ->setAction(Action::EDIT)
-            ->setEntityId($entity->getUser()->getId());                
+        $editarUser = Action::new('editarUser', 'Modificar Usuario')->linkToUrl(function (Teacher $entity) {
+            return $this->crudUrlGenerator->build()
+                ->setController(UserCrudController::class)
+                ->setAction(Action::EDIT)
+                ->setEntityId($entity->getUser()->getId());
         });
 
         $actions = $actions
@@ -63,13 +61,12 @@ class TeacherCrudController extends AbstractCrudController
             ->add(Crud::PAGE_EDIT, $editarUser)
             ->add(Crud::PAGE_NEW, Action::INDEX)
             ->setPermission(Action::INDEX, 'ROLE_ADMIN')
-            ->setPermission(Action::INDEX, 'ROLE_MODERADOR')
+            ->setPermission(Action::INDEX, 'ROLE_MODERATOR')
             ->setPermission(Action::NEW, 'ROLE_ADMIN')
-            ->setPermission(Action::NEW, 'ROLE_MODERADOR')
-            ->setPermission(Action::SAVE_AND_RETURN, 'ROLE_ADMIN')            
-            ->setPermission(Action::SAVE_AND_RETURN, 'ROLE_MODERADOR')
-            ;
+            ->setPermission(Action::NEW, 'ROLE_MODERATOR')
+            ->setPermission(Action::SAVE_AND_RETURN, 'ROLE_ADMIN')
+            ->setPermission(Action::SAVE_AND_RETURN, 'ROLE_MODERATOR');
 
         return $actions;
-    }    
+    }
 }

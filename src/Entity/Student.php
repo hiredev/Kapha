@@ -22,12 +22,12 @@ class Student
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nombre;
+    private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $apellido;
+    private $lastName;
 
     /**
      * @ORM\OneToMany(targetEntity=Payment::class, mappedBy="student", orphanRemoval=true)
@@ -56,26 +56,26 @@ class Student
         return $this->id;
     }
 
-    public function getNombre(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->nombre;
+        return $this->firstName;
     }
 
-    public function setNombre(string $nombre): self
+    public function setFirstName(string $firstName): self
     {
-        $this->nombre = $nombre;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getApellido(): ?string
+    public function getLastName(): ?string
     {
-        return $this->apellido;
+        return $this->lastName;
     }
 
-    public function setApellido(string $apellido): self
+    public function setLastName(string $lastName): self
     {
-        $this->apellido = $apellido;
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -168,6 +168,6 @@ class Student
     }    
 
     public function __toString(){
-        return $this->getNombre() . ' ' . $this->getApellido();
+        return $this->getFirstName() . ' ' . $this->getLastName();
     }    
 }

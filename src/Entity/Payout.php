@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CobranzaRepository;
+use App\Repository\PayoutRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CobranzaRepository::class)
+ * @ORM\Entity(repositoryClass=PayoutRepository::class)
  */
-class Cobranza
+class Payout
 {
     /**
      * @ORM\Id
@@ -18,7 +18,7 @@ class Cobranza
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Teacher::class, inversedBy="cobranzas")
+     * @ORM\ManyToOne(targetEntity=Teacher::class, inversedBy="payouts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $teacher;

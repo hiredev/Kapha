@@ -38,6 +38,6 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
             return new RedirectResponse($this->urlGenerator->generate('teacher'));            
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('default'));
+        return new RedirectResponse($this->urlGenerator->generate('student'));
     }
 }

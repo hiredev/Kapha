@@ -110,8 +110,7 @@ class CustomAuthAuthenticator extends AbstractFormLoginAuthenticator implements 
             return new RedirectResponse($this->urlGenerator->generate('teacher'));
         }
 
-
-        return new RedirectResponse($this->urlGenerator->generate('stu'));
+        return new RedirectResponse($this->urlGenerator->generate('student'));
     }
 
     protected function getLoginUrl()

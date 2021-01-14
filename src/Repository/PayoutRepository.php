@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Cobranza;
+use App\Entity\Payout;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Cobranza|null find($id, $lockMode = null, $lockVersion = null)
- * @method Cobranza|null findOneBy(array $criteria, array $orderBy = null)
- * @method Cobranza[]    findAll()
- * @method Cobranza[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Payout|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Payout|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Payout[]    findAll()
+ * @method Payout[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CobranzaRepository extends ServiceEntityRepository
+class PayoutRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Cobranza::class);
+        parent::__construct($registry, Payout::class);
     }
 
     // /**
-    //  * @return Cobranza[] Returns an array of Cobranza objects
+    //  * @return Payout[] Returns an array of Payout objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class CobranzaRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Cobranza
+    public function findOneBySomeField($value): ?Payout
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

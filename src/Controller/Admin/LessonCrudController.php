@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Lesson;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
@@ -29,8 +30,7 @@ class LessonCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')
-                ->OnlyOnIndex(),
+            IdField::new('id')->OnlyOnIndex()->setPermission('ROLE_ADMIN'),
             TextField::new('titulo'),
             TextEditorField::new('descripcion')
                 ->OnlyOnForms(),
@@ -39,9 +39,8 @@ class LessonCrudController extends AbstractCrudController
                 ->setFormTypeOptions(['allow_delete' => false])
                 ->OnlyOnForms(),
             ImageField::new('imagen')
-                ->setBasePath(
-                    $this->getParameter('app.path.lesson_image'))
-                ->hideOnForm(),        
+                ->setBasePath($this->getParameter('app.path.lesson_image'))
+                ->hideOnForm(),
             UrlField::new('link')->hideOnIndex(),
             DateTimeField::new('fecha')->onlyOnIndex(),
             AssociationField::new('course'),
@@ -49,14 +48,19 @@ class LessonCrudController extends AbstractCrudController
         ];
     }
 
+
+
     public function configureActions(Actions $actions): Actions
     {
+
+
         return $actions
-            ->add(Crud::PAGE_EDIT, Action::INDEX)
-            ->add(Crud::PAGE_NEW, Action::INDEX)
-            ->setPermission(Action::SAVE_AND_CONTINUE, 'ROLE_ADMIN')            
-            ->setPermission(Action::SAVE_AND_CONTINUE, 'ROLE_MODERADOR')
-            ->remove(Crud::PAGE_NEW, Action::SAVE_AND_ADD_ANOTHER)
-        ;
-    }    
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->setPermission(Action::EDIT, "ROLE_MODERATOR")
+            ->setPermission(Action::NEW, "ROLE_MODERATOR")
+            ->setPermission(Action::DELETE, "ROLE_MODERATOR")
+            ->setPermission(Action::SAVE_AND_CONTINUE, "ROLE_MODERATOR");
+
+
+    }
 }

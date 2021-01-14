@@ -21,7 +21,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-class AdministradorController extends AbstractDashboardController
+class AdminController extends AbstractDashboardController
 {
     /**
      * @Route("/admin", name="admin")

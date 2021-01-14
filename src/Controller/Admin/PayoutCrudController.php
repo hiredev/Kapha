@@ -2,14 +2,14 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Cobranza;
+use App\Entity\Payout;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class CobranzaCrudController extends AbstractCrudController
+class PayoutCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Cobranza::class;
+        return Payout::class;
     }
 
     /*

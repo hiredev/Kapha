@@ -3,67 +3,76 @@
 {% block title %}Log in!{% endblock %}
 
 {% block header %}
-                <div class="col-xl-12 col-lg-12 text-center">
-                    <form method="post" class="page-header-signup mb-2 mb-md-0">
-                        <div class="form-row justify-content-center">
-                            {% if error %}
-                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                            {% endif %}
+    <div class="row">
+        <form method="post" class="page-header-signup mb-2 mb-md-0">
+            <div class="form-row justify-content-center">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
 
-                            <h1 class="page-header-title">Please sign in</h1>
+                <h1 class="page-header-title">Please sign in</h1>
 
-                            <p class="page-header-text mb-5">Welcome to SB UI Kit Pro, a toolkit for building beautiful web interfaces, created by the developmet team at Start Bootstrap</p>
+                <p class="page-header-text mb-5">Welcome to SB UI Kit Pro, a toolkit for building beautiful web interfaces, created by the developmet team at Start Bootstrap</p>
 
-                            <div class="col-md-12">
-                                <div class="form-group mr-0 mr-lg-2">
-                                    <label for="inputEmail" class="sr-only">Email</label>
-                                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control form-control-solid rounded-pill" required autofocus placeholder="Enter your email...">
-                                </div>
-                            </div>
+                <div class="col-md-12">
+                    <div class="form-group mr-0 mr-lg-2">
+                        <label for="inputEmail" class="sr-only">Email</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control form-control-solid rounded-pill" required autofocus placeholder="Enter your email...">
+                    </div>
+                </div>
 
-                            <div class="col-md-12">
-                                <div class="form-group mr-0 mr-lg-2">
-                                    <label for="inputPassword" class="sr-only">Password</label>
-                                    <input type="password" name="password" id="inputPassword" class="form-control form-control-solid rounded-pill" required placeholder="Enter your password..">
-                                </div>
-                            </div>                                                                    
+                <div class="col-md-12">
+                    <div class="form-group mr-0 mr-lg-2">
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control form-control-solid rounded-pill" required placeholder="Enter your password..">
+                    </div>
+                </div>
 
-                            <input type="hidden" name="_csrf_token"
-                                value="{{ csrf_token('authenticate') }}"
-                            >
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                            {#
-                                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                                See https://symfony.com/doc/current/security/remember_me.html
+                {#
+                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                    See https://symfony.com/doc/current/security/remember_me.html
 
-                                <div class="checkbox mb-3">
-                                    <label>
-                                        <input type="checkbox" name="_remember_me"> Remember me
-                                    </label>
-                                </div>
-                            #}
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Remember me
+                        </label>
+                    </div>
+                #}
 
-                            <button class="btn btn-teal btn-block btn-marketing rounded-pill" type="submit">
-                                Sign in
-                            </button>
-                            
-                            <div class="btn btn-blue btn-block btn-marketing rounded-pill col-md-12">
-                            <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" style="color: white">
-                                <svg class="centerHV" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 267 267" width="25" height="25">
-                                    <g fill="white">
-                                    <path id="Blue_1_" fill="#0061f2" d="M248.082,262.307c7.854,0,14.223-6.369,14.223-14.225V18.812
+                <button class="btn btn-teal btn-block btn-marketing rounded-pill" type="submit">
+                    Sign in
+                </button>
+
+                <div class="btn btn-blue btn-block btn-marketing rounded-pill col-md-12">
+                    <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" style="color: white">
+                        <svg class="centerHV" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 267 267" width="25" height="25">
+                            <g fill="white">
+                                <path id="Blue_1_" fill="#0061f2" d="M248.082,262.307c7.854,0,14.223-6.369,14.223-14.225V18.812
                                         c0-7.857-6.368-14.224-14.223-14.224H18.812c-7.857,0-14.224,6.367-14.224,14.224v229.27c0,7.855,6.366,14.225,14.224,14.225
                                         H248.082z"/>
-                                    <path id="f" fill="#FFFFFF" d="M182.409,262.307v-99.803h33.499l5.016-38.895h-38.515V98.777c0-11.261,3.127-18.935,19.275-18.935
+                                <path id="f" fill="#FFFFFF" d="M182.409,262.307v-99.803h33.499l5.016-38.895h-38.515V98.777c0-11.261,3.127-18.935,19.275-18.935
                                         l20.596-0.009V45.045c-3.562-0.474-15.788-1.533-30.012-1.533c-29.695,0-50.025,18.126-50.025,51.413v28.684h-33.585v38.895h33.585
                                         v99.803H182.409z"/>
-                                    </path>
-                                    </g>
-                                </svg>                                                                                                
-                                Login with Facebook
-                            </a>
-                            </span>
-                        </div>
-                    </form>
+                                </path>
+                            </g>
+                        </svg>
+                        Login with Facebook
+                    </a>
+
                 </div>
+            </div>
+        </form>
+    </div>
+
+{#    <div class="row">#}
+{#        <div class="col-md-6">#}
+{#            <a class="btn btn-blue btn-block btn-marketing rounded-pill" href="{{ path('registro_student') }}" style="color: white">{{ 'Registrar Alumno' | trans }}</a>#}
+{#        </div>#}
+{#        <div class="col-md-6">#}
+{#            <a class="btn btn-blue btn-block btn-marketing rounded-pill" href="{{ path('registro_teacher') }}" style="color: white">{{ 'Registrar Maestro' | trans }}</a>#}
+{#        </div>#}
+{#    </div>#}
+
 {% endblock %}

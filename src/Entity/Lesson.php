@@ -51,7 +51,7 @@ class Lesson
     private $imagen;
 
     /**
-     * @Vich\UploadableField(mapping="programa_images", fileNameProperty="imagen")
+     * @Vich\UploadableField(mapping="lesson_images", fileNameProperty="imagen")
      * @var File
      */
     private $imagenFile;

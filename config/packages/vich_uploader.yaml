@@ -2,9 +2,9 @@ vich_uploader:
     db_driver: orm
 
     mappings:
-        programa_images:
+        course_images:
             uri_prefix:         '%app.path.course_image%'
             upload_destination: '%kernel.project_dir%/public/%app.path.course_image%'
-        aula_images:
+        lesson_images:
             uri_prefix:         '%app.path.lesson_image%'
             upload_destination: '%kernel.project_dir%/public/%app.path.lesson_image%'

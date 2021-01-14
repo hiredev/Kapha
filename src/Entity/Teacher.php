@@ -22,12 +22,12 @@ class Teacher
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nombre;
+    private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $apellido;
+    private $lastName;
 
     /**
      * @ORM\Column(type="string", length=500)
@@ -35,9 +35,9 @@ class Teacher
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity=Cobranza::class, mappedBy="teacher", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Payout::class, mappedBy="teacher", orphanRemoval=true)
      */
-    private $cobranzas;
+    private $payouts;
 
     /**
      * @ORM\OneToMany(targetEntity=Lesson::class, mappedBy="teacher", orphanRemoval=true)
@@ -58,7 +58,7 @@ class Teacher
 
     public function __construct()
     {
-        $this->cobranzas = new ArrayCollection();
+        $this->payouts = new ArrayCollection();
         $this->lessons = new ArrayCollection();
     }
 
@@ -67,26 +67,26 @@ class Teacher
         return $this->id;
     }
 
-    public function getNombre(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->nombre;
+        return $this->firstName;
     }
 
-    public function setNombre(string $nombre): self
+    public function setFirstName(string $firstName): self
     {
-        $this->nombre = $nombre;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getApellido(): ?string
+    public function getLastName(): ?string
     {
-        return $this->apellido;
+        return $this->lastName;
     }
 
-    public function setApellido(string $apellido): self
+    public function setLastName(string $lastName): self
     {
-        $this->apellido = $apellido;
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -104,30 +104,30 @@ class Teacher
     }
 
     /**
-     * @return Collection|Cobranza[]
+     * @return Collection|Payout[]
      */
-    public function getCobranzas(): Collection
+    public function getPayouts(): Collection
     {
-        return $this->cobranzas;
+        return $this->payouts;
     }
 
-    public function addCobranza(Cobranza $cobranza): self
+    public function addPayout(Payout $payout): self
     {
-        if (!$this->cobranzas->contains($cobranza)) {
-            $this->cobranzas[] = $cobranza;
-            $cobranza->setTeacher($this);
+        if (!$this->payouts->contains($payout)) {
+            $this->payouts[] = $payout;
+            $payout->setTeacher($this);
         }
 
         return $this;
     }
 
-    public function removeCobranza(Cobranza $cobranza): self
+    public function removePayout(Payout $payout): self
     {
-        if ($this->cobranzas->contains($cobranza)) {
-            $this->cobranzas->removeElement($cobranza);
+        if ($this->payouts->contains($payout)) {
+            $this->payouts->removeElement($payout);
             // set the owning side to null (unless already changed)
-            if ($cobranza->getTeacher() === $this) {
-                $cobranza->setTeacher(null);
+            if ($payout->getTeacher() === $this) {
+                $payout->setTeacher(null);
             }
         }
 
@@ -196,7 +196,7 @@ class Teacher
 
     public function setEmail(string $email): self
     {
-        if(!$this->user){
+        if (!$this->user) {
             $this->user = new User;
         }
 
@@ -205,7 +205,8 @@ class Teacher
         return $this;
     }
 
-    public function __toString(){
-        return $this->getNombre() . ' ' . $this->getApellido();
+    public function __toString()
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName();
     }
 }

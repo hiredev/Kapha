@@ -3,11 +3,11 @@
 {% block title %}Hello RegistroController!{% endblock %}
 
 {% block header %}
-<div class="btn btn-blue btn-block btn-marketing rounded-pill col-md-12">
-<a href="{{ path('registro_alumno') }}" style="color: white">Registrar Alumno</a>
-</div>
-<br><br><br>
-<div class="btn btn-blue btn-block btn-marketing rounded-pill col-md-12">
-<a href="{{ path('registro_maestro') }}" style="color: white">Registrar Maestro</a>
-</div>
+    <div class="btn btn-blue btn-block btn-marketing rounded-pill col-md-12">
+        <a href="{{ path('registro_student') }}" style="color: white">{{ 'Registrar Alumno' | trans }}</a>
+    </div>
+    <br><br><br>
+    <div class="btn btn-blue btn-block btn-marketing rounded-pill col-md-12">
+        <a href="{{ path('registro_teacher') }}" style="color: white">{{ 'Registrar Maestro' | trans }}</a>
+    </div>
 {% endblock %}

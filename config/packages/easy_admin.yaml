@@ -1,6 +1,9 @@
 #easy_admin:
 #    entities:
+#      Teacher:
+#        class: App\Entity\Teacher
+#        label: 'Maestro'
+#        list:
+#          title: "Most recent customers"
+#          dql_filter: "LOWER(entity.title) LIKE '%%issue%%'"
 #        # List the entity class name you want to manage
-#        - App\Entity\Product
-#        - App\Entity\Category
-#        - App\Entity\Usuario

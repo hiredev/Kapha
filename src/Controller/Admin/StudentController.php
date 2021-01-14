@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Course;
 use App\Entity\Teacher;
 use App\Entity\Lesson;
 use App\Entity\User;
@@ -15,10 +16,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-class TeacherController extends AbstractDashboardController
+class StudentController extends AbstractDashboardController
 {
     /**
-     * @Route("/teacher", name="teacher")
+     * @Route("/student", name="student")
      */
     public function index(): Response
     {
@@ -27,13 +28,19 @@ class TeacherController extends AbstractDashboardController
     }
 
     /**
-     * @Route("/teacher/payout", name="teacher_payout")
+     * @Route("/student/test", name="student_test")
      */
-    public function payout(): Response
+    public function test(): Response
     {
-        return $this->render('teacher/payout.html.twig', [
+        return $this->render("student/list.html.twig");
+    }
 
-        ]);
+    /**
+     * @Route("/student/subscription", name="student_subscription")
+     */
+    public function subscription(): Response
+    {
+        return $this->render("student/subscription.html.twig");
     }
 
 
@@ -45,23 +52,25 @@ class TeacherController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+        //yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linktoRoute('Subscription', 'fa fa-money', "student_subscription");
+
+
+        yield MenuItem::section('Programas');
+        yield MenuItem::linkToCrud('Programas', 'fa fa-users', Course::class);
+
         yield MenuItem::section('Aulas');
-        yield MenuItem::linkToCrud('Aulas', 'fa fa-users', Lesson::class)
-            ->setAction('index')
-            ->setEntityId(2)
-//            ->setQueryParameter()
-        ;
+        yield MenuItem::linkToCrud('Aulas', 'fa fa-users', Lesson::class);
+
+
+//        yield MenuItem::section('Perfil');
+//        yield MenuItem::linkToCrud('Perfil', 'fa fa-users', Teacher::class)
+//            ->setAction('edit')
+//            ->setEntityId($this->getUser()->getTeacher()->getId());
 
         yield MenuItem::section('Perfil');
-        yield MenuItem::linktoRoute("Payout", "fa fa-money", "teacher_payout");
-        yield MenuItem::linkToCrud('Perfil', 'fa fa-users', Teacher::class)
-            ->setAction('edit')
-            ->setEntityId($this->getUser()->getTeacher()->getId());
         yield MenuItem::linkToCrud('Acceso', 'fa fa-users', User::class)
             ->setAction('edit')
             ->setEntityId($this->getUser()->getId());
-
-
-
     }
 }

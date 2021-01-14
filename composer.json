@@ -10,7 +10,7 @@
         "doctrine/doctrine-bundle": "<2.1",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
-        "easycorp/easyadmin-bundle": "^3.1",
+        "easycorp/easyadmin-bundle": "^3.2",
         "hwi/oauth-bundle": "^1.1",
         "php-http/guzzle6-adapter": "^2.0",
         "php-http/httplug-bundle": "^1.18",

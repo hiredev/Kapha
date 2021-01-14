@@ -27,8 +27,8 @@ class StudentCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             EmailField::new('email'),            
-            TextField::new('nombre'),
-            TextField::new('apellido'),
+            TextField::new('firstName', 'Nombre'),
+            TextField::new('lastName', 'Apellido'),
         ];
     }
 

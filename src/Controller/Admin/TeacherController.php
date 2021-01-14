@@ -47,8 +47,6 @@ class TeacherController extends AbstractDashboardController
     {
         yield MenuItem::section('Aulas');
         yield MenuItem::linkToCrud('Aulas', 'fa fa-users', Lesson::class)
-            ->setAction('index')
-            ->setEntityId(2)
 //            ->setQueryParameter()
         ;
 
@@ -60,8 +58,5 @@ class TeacherController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Acceso', 'fa fa-users', User::class)
             ->setAction('edit')
             ->setEntityId($this->getUser()->getId());
-
-
-
     }
 }

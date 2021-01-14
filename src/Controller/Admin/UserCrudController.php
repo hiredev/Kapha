@@ -27,14 +27,18 @@ class UserCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             EmailField::new('email'),
-            DateTimeField::new('fecha')->onlyOnIndex(),
+            ChoiceField::new('defaultLocale')->setChoices([
+                'Español' => 'es',
+                'English' => 'en',
+            ]),
+            DateTimeField::new('date')->onlyOnIndex(),
             ChoiceField::new('roles')->allowMultipleChoices()->setChoices([
                 'ROLE_USUARIO' => 'ROLE_USER',
                 'ROLE_MAESTRO' => 'ROLE_TEACHER',
-                'ROLE_MODERADOR' => 'ROLE_MODERADOR',
+                'ROLE_MODERADOR' => 'ROLE_MODERATOR',
                 'ROLE_ADMIN' => 'ROLE_ADMIN'
             ])
-            ->setPermission('ROLE_MODERADOR')->setPermission('ROLE_ADMIN'),
+                ->setPermission('ROLE_MODERATOR')->setPermission('ROLE_ADMIN'),
             TextField::new('newPassword')->onlyOnForms()
         ];
     }

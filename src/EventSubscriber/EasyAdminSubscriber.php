@@ -64,7 +64,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         }
 
         if (($entity instanceof Lesson)) {
-            if ($this->authorizationChecker->isGranted('ROLE_TEACHER') && !$this->authorizationChecker->isGranted('ROLE_ADMIN') && !$this->authorizationChecker->isGranted('ROLE_MODERADOR')){
+            if ($this->authorizationChecker->isGranted('ROLE_TEACHER') && !$this->authorizationChecker->isGranted('ROLE_ADMIN') && !$this->authorizationChecker->isGranted('ROLE_MODERATOR')){
                 $entity->setTeacher($user->getTeacher());
             }
         }
@@ -87,7 +87,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             throw new AccessDeniedException();
         }
 
-        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN') && !$this->authorizationChecker->isGranted('ROLE_MODERADOR')) {
+        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN') && !$this->authorizationChecker->isGranted('ROLE_MODERATOR')) {
             $context = $event->getAdminContext();
             $entity = $context->getEntity();
             if($entity){

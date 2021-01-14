@@ -26,22 +26,29 @@ class Payment
     /**
      * @ORM\Column(type="float")
      */
-    private $monto;
+    private $amount;
 
     /**
      * @ORM\Column(type="string", length=30)
      */
-    private $metodo;
+    private $method;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $transaccion;
+    private $transaction;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $fecha;
+    private $date;
+
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\PaymentPlan")
+     */
+    private $plan;
 
     public function getId(): ?int
     {
@@ -60,51 +67,74 @@ class Payment
         return $this;
     }
 
-    public function getMonto(): ?float
+    public function getAmount(): ?float
     {
-        return $this->monto;
+        return $this->amount;
     }
 
-    public function setMonto(float $monto): self
+    public function setAmount(float $amount): self
     {
-        $this->monto = $monto;
+        $this->amount = $amount;
 
         return $this;
     }
 
-    public function getMetodo(): ?string
+    public function getMethod(): ?string
     {
-        return $this->metodo;
+        return $this->method;
     }
 
-    public function setMetodo(string $metodo): self
+    public function setMethod(string $method): self
     {
-        $this->metodo = $metodo;
+        $this->method = $method;
 
         return $this;
     }
 
-    public function getTransaccion(): ?string
+    public function getTransaction(): ?string
     {
-        return $this->transaccion;
+        return $this->transaction;
     }
 
-    public function setTransaccion(string $transaccion): self
+    public function setTransaction(string $transaction): self
     {
-        $this->transaccion = $transaccion;
+        $this->transaction = $transaction;
 
         return $this;
     }
 
-    public function getFecha(): ?\DateTimeInterface
+    public function getDate(): \DateTimeInterface
     {
-        return $this->fecha;
+        return $this->date;
     }
 
-    public function setFecha(\DateTimeInterface $fecha): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        $this->fecha = $fecha;
+        $this->date = $date;
 
+        return $this;
+    }
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
+
+    /**
+     * @return PaymentPlan
+     */
+    public function getPlan(): ?PaymentPlan
+    {
+        return $this->plan;
+    }
+
+    /**
+     * @param PaymentPlan $plan
+     * @return Payment
+     */
+    public function setPlan(PaymentPlan $plan)
+    {
+        $this->plan = $plan;
         return $this;
     }
 }

@@ -27,7 +27,7 @@ class Course
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $titulo;
+    private $title;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -37,7 +37,7 @@ class Course
     /**
      * @ORM\Column(type="text")
      */
-    private $descripcion;
+    private $description;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -84,14 +84,14 @@ class Course
         return $this->id;
     }
 
-    public function getTitulo(): ?string
+    public function getTitle(): ?string
     {
-        return $this->titulo;
+        return $this->title;
     }
 
-    public function setTitulo(string $titulo): self
+    public function setTitle(string $title): self
     {
-        $this->titulo = $titulo;
+        $this->title = $title;
 
         return $this;
     }
@@ -108,14 +108,14 @@ class Course
         return $this;
     }
 
-    public function getDescripcion(): ?string
+    public function getDescription(): ?string
     {
-        return $this->descripcion;
+        return $this->description;
     }
 
-    public function setDescripcion(string $descripcion): self
+    public function setDescription(string $description): self
     {
-        $this->descripcion = $descripcion;
+        $this->description = $description;
 
         return $this;
     }
@@ -152,7 +152,7 @@ class Course
     }
 
     public function __toString(){
-        return $this->getTitulo();
+        return $this->getTitle();
     }    
 
     public function setImagenFile(File $imagen = null)

@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Payment;
+use App\Entity\PaymentPlan;
 use App\Entity\User;
 use App\Entity\Pagina;
 use App\Entity\Categoria;
@@ -43,25 +45,30 @@ class AdminController extends AbstractDashboardController
     {
         //yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
 
-        yield MenuItem::section('Maestros');
-        yield MenuItem::linkToCrud('Categorias', 'fa fa-users', Categoria::class);
-        yield MenuItem::linkToCrud('Maestros', 'fa fa-users', Teacher::class);
 
         yield MenuItem::section('Aulas');
         yield MenuItem::linkToCrud('Programas', 'fa fa-users', Course::class);
         yield MenuItem::linkToCrud('Aulas', 'fa fa-users', Lesson::class);
 
-        yield MenuItem::section('Contenido');
-        yield MenuItem::linkToCrud('Paginas', 'fa fa-file', Pagina::class);
-        yield MenuItem::linkToCrud('Contacto', 'fa fa-file', Contacto::class);        
-
         yield MenuItem::section('Zoom');
         yield MenuItem::linkToCrud('Cuentas Zoom', 'fa fa-file', CuentaZoom::class);
         yield MenuItem::linktoRoute('Crear Zoom', 'fa fa-file', 'zoom_create');
 
+        yield MenuItem::section('Contenido');
+        yield MenuItem::linkToCrud('Paginas', 'fa fa-file', Pagina::class);
+        yield MenuItem::linkToCrud('Contacto', 'fa fa-file', Contacto::class);
+
+        yield MenuItem::section('Maestros');
+        yield MenuItem::linkToCrud('Categorias', 'fa fa-users', Categoria::class);
+        yield MenuItem::linkToCrud('Maestros', 'fa fa-users', Teacher::class);
+
+        yield MenuItem::section('Finance');
+        yield MenuItem::linkToCrud('Plans', 'fa fa-money', PaymentPlan::class);
+        yield MenuItem::linkToCrud('Payment history', 'fa fa-money', Payment::class);
+
+
         yield MenuItem::section('Acceso');
         yield MenuItem::linkToCrud('Alumnos', 'fa fa-users', Student::class);
-
         yield MenuItem::linkToCrud('Usuarios', 'fa fa-users', User::class);
     }
 }

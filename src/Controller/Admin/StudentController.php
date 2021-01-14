@@ -3,10 +3,14 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Course;
+use App\Entity\Payment;
+use App\Entity\PaymentPlan;
+use App\Entity\Student;
 use App\Entity\Teacher;
 use App\Entity\Lesson;
 use App\Entity\User;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -28,19 +32,43 @@ class StudentController extends AbstractDashboardController
     }
 
     /**
-     * @Route("/student/test", name="student_test")
-     */
-    public function test(): Response
-    {
-        return $this->render("student/list.html.twig");
-    }
-
-    /**
      * @Route("/student/subscription", name="student_subscription")
      */
     public function subscription(): Response
     {
-        return $this->render("student/subscription.html.twig");
+
+        $plans = $this->getDoctrine()->getRepository(PaymentPlan::class)->findBy([
+            'isActive' => true,
+        ]);
+
+        $payments = $this->getDoctrine()->getRepository(Payment::class)->findBy([
+            'student' => $this->getUser()->getStudent()
+        ]);
+
+        return $this->render("student/subscription.html.twig", [
+            'payments' => $payments,
+            'plans' => $plans,
+        ]);
+    }
+
+    /**
+     * @Route("/student/subscription/buy", name="student_subscription_buy")
+     */
+    public function subscriptionBuy(Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $payment = new Payment();
+        $payment->setStudent($this->getUser()->getStudent());
+        $payment->setMethod('test');
+        $payment->setAmount(123);
+        $payment->setTransaction(1);
+        $payment->setPlan($em->getReference(PaymentPlan::class, $request->get('id')));
+
+        $em->persist($payment);
+        $em->flush();
+
+        return $this->redirectToRoute('student_subscription');
     }
 
 
@@ -52,23 +80,30 @@ class StudentController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        //yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linktoRoute('Subscription', 'fa fa-money', "student_subscription");
 
+        $lastPayment = $this->getDoctrine()->getRepository('App:Payment')->findLastPayment($this->getUser()->getStudent());
+        $isSubscribed = false;
+
+        if ($lastPayment->getDate()->diff(new \DateTime())->days <= $lastPayment->getPlan()->getPeriod()) {
+            $isSubscribed = true;
+        }
 
         yield MenuItem::section('Programas');
         yield MenuItem::linkToCrud('Programas', 'fa fa-users', Course::class);
 
-        yield MenuItem::section('Aulas');
-        yield MenuItem::linkToCrud('Aulas', 'fa fa-users', Lesson::class);
-
-
-//        yield MenuItem::section('Perfil');
-//        yield MenuItem::linkToCrud('Perfil', 'fa fa-users', Teacher::class)
-//            ->setAction('edit')
-//            ->setEntityId($this->getUser()->getTeacher()->getId());
+        if ($isSubscribed) {
+            yield MenuItem::section('Aulas');
+            yield MenuItem::linkToCrud('Aulas', 'fa fa-users', Lesson::class);
+        }
 
         yield MenuItem::section('Perfil');
+        yield MenuItem::linktoRoute('Subscription', 'fa fa-money', "student_subscription");
+        if ($this->getUser()->getStudent() != null) {
+            yield MenuItem::linkToCrud('Perfil', 'fa fa-users', Student::class)
+                ->setAction('edit')
+                ->setEntityId($this->getUser()->getStudent()->getId());
+        }
+
         yield MenuItem::linkToCrud('Acceso', 'fa fa-users', User::class)
             ->setAction('edit')
             ->setEntityId($this->getUser()->getId());

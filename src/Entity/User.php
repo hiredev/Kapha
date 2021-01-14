@@ -49,7 +49,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="datetime")
      */
-    private $fecha;
+    private $date;
 
     /**
      * @ORM\OneToOne(targetEntity=Student::class, mappedBy="user", cascade={"persist", "remove"})
@@ -60,6 +60,11 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity=Teacher::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $teacher;
+
+    /**
+     * @ORM\Column(type="string", length=2, nullable=true)
+     */
+    private $defaultLocale;
 
 
     public function getId(): ?int
@@ -181,14 +186,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getfecha(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->fecha;
+        return $this->date;
     }
 
-    public function setfecha(\DateTimeInterface $fecha): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        $this->fecha = $fecha;
+        $this->date = $date;
 
         return $this;
     }
@@ -219,7 +224,6 @@ class User implements UserInterface
     {
         $this->teacher = $teacher;
 
-        // set the owning side of the relation if necessary
         if ($teacher->getUser() !== $this) {
             $teacher->setUser($this);
         }
@@ -228,6 +232,25 @@ class User implements UserInterface
     }
 
     public function __construct(){
-        $this->setfecha(new \Datetime());
-    }    
+        $this->date = new \Datetime();
+        $this->defaultLocale = 'es';
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultLocale(): string
+    {
+        return $this->defaultLocale;
+    }
+
+    /**
+     * @param string $defaultLocale
+     * @return User
+     */
+    public function setDefaultLocale(string $defaultLocale): User
+    {
+        $this->defaultLocale = $defaultLocale;
+        return $this;
+    }
 }

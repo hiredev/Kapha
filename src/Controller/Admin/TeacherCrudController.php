@@ -48,7 +48,6 @@ class TeacherCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         $this->crudUrlGenerator = $this->get(CrudUrlGenerator::class);
-        $roles = $this->getUser()->getRoles();
 
         $verUser = Action::new('verUser', 'Usuario')->linkToUrl(function (Teacher $entity) {
             return $this->crudUrlGenerator->build()

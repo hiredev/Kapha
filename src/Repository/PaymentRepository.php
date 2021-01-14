@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Payment;
+use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +18,23 @@ class PaymentRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Payment::class);
+    }
+
+    /**
+     * @param Student $student
+     * @return Payment
+     */
+    public function findLastPayment(Student $student)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.student = :student')
+            ->setParameters([
+                'student' => $student
+            ])
+            ->orderBy('p.date', "DESC")
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     // /**

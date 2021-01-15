@@ -10,6 +10,7 @@ use App\Entity\Teacher;
 use App\Entity\Lesson;
 use App\Entity\User;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -92,6 +93,43 @@ class StudentController extends AbstractDashboardController
         ]);
 
     }
+
+    /**
+     * @Route("/student/verify", name="verify_payment")
+     */
+    public function verifyPayment(Request $request): Response
+    {
+
+
+        $paypalObj = json_decode($request->getContent());
+        if ($paypalObj->status == "COMPLETED") {
+            $em = $this->getDoctrine()->getManager();
+
+            $plan = $this->getDoctrine()->getRepository(PaymentPlan::class)->find($request->get("id"));
+
+            $payment = new Payment();
+            $payment->setPlan($em->getReference(PaymentPlan::class, $plan->getId()));
+            $payment->setTransaction($paypalObj->id);
+            $payment->setPayload($request->getContent());
+            $payment->setStudent($this->getUser()->getStudent());
+            $payment->setAmount($plan->getAmount());
+            $payment->setMethod("PayPal");
+
+            $em->persist($payment);
+            $em->flush();
+
+            return new JsonResponse([
+                'status' => 'SUCCESS',
+            ]);
+        }
+        return new JsonResponse([
+            'status' => 'FAILED',
+        ]);
+
+
+        dd($paypalObj);
+    }
+
 
     /**
      * @Route("/student/subscription/buy2", name="student_subscription_buy2")

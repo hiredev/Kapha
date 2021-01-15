@@ -105,3 +105,5 @@
     ALTER TABLE course ADD is_active TINYINT(1) NOT NULL, CHANGE fecha date DATETIME NOT NULL;
     ALTER TABLE teacher ADD is_active TINYINT(1) NOT NULL;
      ALTER TABLE lesson ADD is_active TINYINT(1) NOT NULL;
+
+     ALTER TABLE payment ADD payload LONGTEXT NOT NULL;

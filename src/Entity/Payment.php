@@ -43,6 +43,12 @@ class Payment
      */
     private $date;
 
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $payload;
+
     public function getExpiresAt()
     {
         return $this->date->modify("+" . $this->plan->getPeriod() . " days");
@@ -141,4 +147,23 @@ class Payment
         $this->plan = $plan;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPayload()
+    {
+        return $this->payload;
+    }
+
+    /**
+     * @param mixed $payload
+     * @return Payment
+     */
+    public function setPayload($payload)
+    {
+        $this->payload = $payload;
+        return $this;
+    }
+
 }

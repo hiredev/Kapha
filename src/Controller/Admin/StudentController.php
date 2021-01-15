@@ -83,9 +83,20 @@ class StudentController extends AbstractDashboardController
     }
 
     /**
-     * @Route("/student/subscription/buy", name="student_subscription_buy")
+     * @Route("/student/subscription/{id}/buy", name="student_subscription_buy")
      */
-    public function subscriptionBuy(Request $request): Response
+    public function subscriptionBuy(PaymentPlan $paymentPlan): Response
+    {
+        return $this->render('student/subscriptionBuy.html.twig', [
+            'plan' => $paymentPlan,
+        ]);
+
+    }
+
+    /**
+     * @Route("/student/subscription/buy2", name="student_subscription_buy2")
+     */
+    public function subscriptionBuy2(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
 

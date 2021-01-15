@@ -64,6 +64,7 @@ class CuentaZoomRepository extends ServiceEntityRepository
         } else {
             $headers[] = "Authorization: Basic  " . base64_encode($this->client_id . ':' . $this->client_secret);
         }
+        dd($url, $fields_string, $headers);
     
         if ($method == 'GET') {
             $url .= '?' . $fields_string;

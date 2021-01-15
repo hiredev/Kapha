@@ -6,8 +6,10 @@
 parameters:
     app.path.course_image: images/programa
     app.path.lesson_image: images/aula
-    app.zoom.client_id: S5NOG1rMTsKJa7RvQSUojA
-    app.zoom.client_secret: kWnnvXrSD0ZADqNNTBJSC8GdTtdUxJ33
+#    app.zoom.client_id: S5NOG1rMTsKJa7RvQSUojA
+#    app.zoom.client_secret: kWnnvXrSD0ZADqNNTBJSC8GdTtdUxJ33
+    app.zoom.client_id: lPNXq1czTXeKui27uERzw
+    app.zoom.client_secret: p1LAs6giz7dvieAwfJe2HjWDQ4QKzZ6i
 services:
     # default configuration for services in *this* file
     _defaults:

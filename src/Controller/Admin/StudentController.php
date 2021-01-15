@@ -45,6 +45,8 @@ class StudentController extends AbstractDashboardController
             'student' => $this->getUser()->getStudent()
         ]);
 
+//        $paypal =
+
         return $this->render("student/subscription.html.twig", [
             'payments' => $payments,
             'plans' => $plans,

@@ -7,6 +7,7 @@ use App\Entity\Student;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -34,8 +35,7 @@ class CourseCrudController extends AbstractCrudController
             ->setPermission(Action::EDIT, "ROLE_MODERATOR")
             ->setPermission(Action::NEW, "ROLE_MODERATOR")
             ->setPermission(Action::DELETE, "ROLE_MODERATOR")
-            ->setPermission(Action::SAVE_AND_CONTINUE, "ROLE_MODERATOR")
-            ;
+            ->setPermission(Action::SAVE_AND_CONTINUE, "ROLE_MODERATOR");
     }
 
     public function configureFields(string $pageName): iterable
@@ -51,7 +51,8 @@ class CourseCrudController extends AbstractCrudController
                 ->setBasePath($this->getParameter('app.path.course_image'))
                 ->hideOnForm(),
             TextEditorField::new('description')->hideOnIndex(),
-            DateTimeField::new('fecha')->hideOnForm(),
+            DateTimeField::new('date', 'Fecha')->hideOnForm(),
+            BooleanField::new("isActive", "Active"),
         ];
     }
 }

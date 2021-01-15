@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -57,6 +58,7 @@ class LessonCrudController extends AbstractCrudController
             $qb = $em->createQueryBuilder();
             $qb->select("l")
                 ->from("App:Lesson", 'l')
+                ->where('l.isActive = true')
 //                ->where('l.teacher = :teacher')
 //                ->andWhere('l.date >= :date')
                 ->setParameters([
@@ -89,7 +91,8 @@ class LessonCrudController extends AbstractCrudController
             UrlField::new('link')->hideOnIndex(),
             DateTimeField::new('date', 'Fecha'),
             AssociationField::new('course'),
-            AssociationField::new('teacher')->autocomplete()
+            AssociationField::new('teacher')->autocomplete(),
+            BooleanField::new("isActive")->setPermission("ROLE_MODERATOR")
         ];
     }
 

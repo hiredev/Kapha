@@ -43,6 +43,10 @@ class Payment
      */
     private $date;
 
+    public function getExpiresAt()
+    {
+        return $this->date->modify("+" . $this->plan->getPeriod() . " days");
+    }
 
 
     /**

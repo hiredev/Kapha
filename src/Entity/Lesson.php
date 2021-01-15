@@ -78,6 +78,12 @@ class Lesson
      */
     private $course;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
+
     public function __construct()
     {
         $this->students = new ArrayCollection();
@@ -229,5 +235,23 @@ class Lesson
 
     public function __toString(){
         return $this->getTitulo();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param mixed $isActive
+     * @return Teacher
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+        return $this;
     }
 }

@@ -46,9 +46,14 @@ class ModeradorController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Categorias', 'fa fa-users', Categoria::class);
         yield MenuItem::linkToCrud('Maestros', 'fa fa-users', Teacher::class);
 
+        yield MenuItem::section('Zoom');
+        yield MenuItem::linkToCrud('Cuentas Zoom', 'fa fa-file', CuentaZoom::class);
+        yield MenuItem::linktoRoute('Crear Zoom', 'fa fa-file', 'zoom_create');
+
         yield MenuItem::section('Aulas');
         yield MenuItem::linkToCrud('Programas', 'fa fa-users', Course::class);
         yield MenuItem::linkToCrud('Aulas', 'fa fa-users', Lesson::class);
+
 
         yield MenuItem::section('Contenido');
         yield MenuItem::linkToCrud('Paginas', 'fa fa-file', Pagina::class);

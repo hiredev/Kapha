@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -39,7 +40,8 @@ class TeacherCrudController extends AbstractCrudController
             TextField::new('firstName', 'Nombre'),
             TextField::new('lastName', 'Apellido'),
             AssociationField::new('categoria'),
-            AssociationField::new('lessons')->onlyOnIndex()
+            AssociationField::new('lessons')->onlyOnIndex(),
+            BooleanField::new("isActive")
         ];
     }
 

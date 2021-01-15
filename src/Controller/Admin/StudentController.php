@@ -41,15 +41,28 @@ class StudentController extends AbstractDashboardController
             'isActive' => true,
         ]);
 
+        /** @var Payment[] $payments */
         $payments = $this->getDoctrine()->getRepository(Payment::class)->findBy([
             'student' => $this->getUser()->getStudent()
-        ]);
+        ], ["date" => "DESC"]);
 
-//        $paypal =
+        $isSubscribed = false;
+        $lastPayment = false;
+
+        if (count($payments) > 0) {
+            $lastPayment = $payments[0];
+
+            if ($lastPayment->getDate()->diff(new \DateTime())->days <= $lastPayment->getPlan()->getPeriod()) {
+                $isSubscribed = true;
+            }
+        }
+
 
         return $this->render("student/subscription.html.twig", [
             'payments' => $payments,
             'plans' => $plans,
+            'isSubscribed' => $isSubscribed,
+            'lastPayment' => $lastPayment,
         ]);
     }
 

@@ -50,6 +50,13 @@ class Teacher
      */
     private $user;
 
+
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
     /**
      * @ORM\ManyToOne(targetEntity=Categoria::class, inversedBy="teachers")
      * @ORM\JoinColumn(nullable=false)
@@ -60,6 +67,7 @@ class Teacher
     {
         $this->payouts = new ArrayCollection();
         $this->lessons = new ArrayCollection();
+        $this->isActive = true;
     }
 
     public function getId(): ?int
@@ -208,5 +216,23 @@ class Teacher
     public function __toString()
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param mixed $isActive
+     * @return Teacher
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+        return $this;
     }
 }

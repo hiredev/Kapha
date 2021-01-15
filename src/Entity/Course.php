@@ -59,16 +59,21 @@ class Course
     /**
      * @ORM\Column(type="datetime")
      */
-    private $fecha;
+    private $date;
 
-    public function getFecha(): ?\DateTimeInterface
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->fecha;
+        return $this->date;
     }
 
-    public function setFecha(\DateTimeInterface $fecha): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        $this->fecha = $fecha;
+        $this->date = $date;
 
         return $this;
     }
@@ -76,7 +81,7 @@ class Course
     public function __construct()
     {
         $this->lessons = new ArrayCollection();
-        $this->fecha = new \DateTime('now');
+        $this->date = new \DateTime('now');
     }
 
     public function getId(): ?int
@@ -163,8 +168,8 @@ class Course
         // It is required that at least one field changes if you are using Doctrine,
         // otherwise the event listeners won't be called and the file is lost
         if ($imagen) {
-            // if 'fecha' is not defined in your entity, use another property
-            $this->fecha = new \DateTime('now');
+            // if 'date' is not defined in your entity, use another property
+            $this->date = new \DateTime('now');
         }
     }
 
@@ -181,5 +186,25 @@ class Course
     public function getImagen()
     {
         return $this->imagen;
-    }    
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param mixed $isActive
+     * @return Course
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+        return $this;
+    }
+
 }

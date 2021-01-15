@@ -101,3 +101,7 @@
     CREATE INDEX IDX_6D28840DE899029B ON payment (plan_id);
 
     ALTER TABLE cuenta_zoom CHANGE access_token access_token VARCHAR(999) NOT NULL, CHANGE refresh_token refresh_token VARCHAR(999) NOT NULL;
+
+    ALTER TABLE course ADD is_active TINYINT(1) NOT NULL, CHANGE fecha date DATETIME NOT NULL;
+    ALTER TABLE teacher ADD is_active TINYINT(1) NOT NULL;
+     ALTER TABLE lesson ADD is_active TINYINT(1) NOT NULL;

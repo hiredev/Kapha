@@ -22,54 +22,32 @@ class CuentaZoomRepository extends ServiceEntityRepository
         $this->client_secret = $client_secret;
     }
 
-    // /**
-    //  * @return CuentaZoom[] Returns an array of CuentaZoom objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+
+
+
+    public function createMeeting() {
+
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?CuentaZoom
+
+
+    public function zoomRequest($url, $fields_string, $method = 'POST', $token = FALSE, $headers = array())
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 
-
-
-    public function zoomRequest($url, $fields_string, $method = 'POST', $token = FALSE, $headers = array()) {
-    
         if (!is_array($headers)) {
             $headers = array();
         }
-    
+
         if ($token) {
             $headers[] = "Authorization: Bearer " . $token;
         } else {
             $headers[] = "Authorization: Basic  " . base64_encode($this->client_id . ':' . $this->client_secret);
         }
-        dd($url, $fields_string, $headers);
-    
+
         if ($method == 'GET') {
             $url .= '?' . $fields_string;
         }
-    
+
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
@@ -79,31 +57,32 @@ class CuentaZoomRepository extends ServiceEntityRepository
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => $method,
-    //        CURLOPT_SSL_VERIFYPEER => true,
-    //        CURLOPT_POST => true,
+            //        CURLOPT_SSL_VERIFYPEER => true,
+            //        CURLOPT_POST => true,
             CURLOPT_HTTPHEADER => $headers,
-                //CURLOPT_USERPWD => ZOOM_CLIENT_ID . ':' . ZOOM_CLIENT_SECRET,
+            //CURLOPT_USERPWD => ZOOM_CLIENT_ID . ':' . ZOOM_CLIENT_SECRET,
         ));
-    
+
         if ($method == 'POST') {
             curl_setopt($curl, CURLOPT_POSTFIELDS, $fields_string);
         }
-    
+
         $verbose = fopen('php://temp', 'w+');
         curl_setopt($curl, CURLOPT_VERBOSE, TRUE);
         curl_setopt($curl, CURLOPT_STDERR, $verbose);
-    
+
         $response = curl_exec($curl);
         $err = curl_error($curl);
-    
+
+
         rewind($verbose);
         $log = stream_get_contents($verbose) . "\n";
         //var_dump($fields_string);
         //var_dump($headers);
         //var_dump($response);
-    
+
         curl_close($curl);
-    
+
         if ($err) {
             $error = array("Status" => 0, "Message" => "cURL Error #:" . $err, "Log" => $log);
         } else {
@@ -112,9 +91,9 @@ class CuentaZoomRepository extends ServiceEntityRepository
                 return $object;
             }
         }
-        
-        $error = array("Status" => 0, "Message" => "cURL Response #:" . $response);    
-    
+
+        $error = array("Status" => 0, "Message" => "cURL Response #:" . $response);
+
         return $error;
-    }    
+    }
 }

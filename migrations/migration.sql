@@ -96,6 +96,8 @@
 
     CREATE TABLE payment_plan (id INT AUTO_INCREMENT NOT NULL, title LONGTEXT NOT NULL, description LONGTEXT NOT NULL, amount DOUBLE PRECISION NOT NULL, period INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
 
-       ALTER TABLE payment ADD plan_id INT DEFAULT NULL;
-     ALTER TABLE payment ADD CONSTRAINT FK_6D28840DE899029B FOREIGN KEY (plan_id) REFERENCES payment_plan (id);
-     CREATE INDEX IDX_6D28840DE899029B ON payment (plan_id);
+    ALTER TABLE payment ADD plan_id INT DEFAULT NULL;
+    ALTER TABLE payment ADD CONSTRAINT FK_6D28840DE899029B FOREIGN KEY (plan_id) REFERENCES payment_plan (id);
+    CREATE INDEX IDX_6D28840DE899029B ON payment (plan_id);
+
+    ALTER TABLE cuenta_zoom CHANGE access_token access_token VARCHAR(999) NOT NULL, CHANGE refresh_token refresh_token VARCHAR(999) NOT NULL;

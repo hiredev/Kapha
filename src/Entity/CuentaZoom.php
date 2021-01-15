@@ -28,12 +28,12 @@ class CuentaZoom
     private $code;
 
     /**
-     * @ORM\Column(type="string", length=600)
+     * @ORM\Column(type="string", length=999)
      */
     private $access_token;
 
     /**
-     * @ORM\Column(type="string", length=600)
+     * @ORM\Column(type="string", length=999)
      */
     private $refresh_token;
 

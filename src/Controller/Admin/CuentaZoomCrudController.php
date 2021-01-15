@@ -34,7 +34,20 @@ class CuentaZoomCrudController extends AbstractCrudController
             ), 
             'POST', 
             FALSE);
-        dd($response);
+
+        dump($response);
+        $zoom = new CuentaZoom();
+        $zoom->setClientId($this->getParameter('app.zoom.client_id'));
+        $zoom->setCode($request->get("code"));
+        $zoom->setAccessToken($response["access_token"]);
+        $zoom->setRefreshToken($response["refresh_token"]);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($zoom);
+        $em->flush();
+
+        return $this->redirectToRoute("admin");
+
     }
 
     /**

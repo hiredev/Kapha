@@ -47,13 +47,13 @@ services:
         #     - ['pass properties as array']
 
     App\Repository\CuentaZoomRepository:
-        $client_id: S5NOG1rMTsKJa7RvQSUojA
-        $client_secret: kWnnvXrSD0ZADqNNTBJSC8GdTtdUxJ33
+        $client_id: lPNXq1czTXeKui27uERzw
+        $client_secret: p1LAs6giz7dvieAwfJe2HjWDQ4QKzZ6i
         
     App\EventSubscriber\MyEntityListener:
         autowire: true 
         tags:
-            - { name: doctrine.event_listener, event: prePersist }            
-            - { name: doctrine.event_listener, event: postPersist }
-            - { name: doctrine.event_listener, event: preUpdate }
-            - { name: doctrine.event_listener, event: postUpdate }                                    
+         - { name: doctrine.event_listener, event: prePersist }
+         - { name: doctrine.event_listener, event: postPersist }
+         - { name: doctrine.event_listener, event: preUpdate }
+         - { name: doctrine.event_listener, event: postUpdate }

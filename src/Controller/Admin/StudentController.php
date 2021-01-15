@@ -22,24 +22,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class StudentController extends AbstractDashboardController
 {
-    /**
-     * @Route("/student", name="student")
-     */
-    public function index(): Response
-    {
-        $routeBuilder = $this->get(CrudUrlGenerator::class)->build();
-        return $this->redirect($routeBuilder->setController(LessonCrudController::class)->generateUrl());
-    }
 
-    /**
-     * @Route("/student/subscription", name="student_subscription")
-     */
-    public function subscription(): Response
+    private function getSubscription()
     {
-
-        $plans = $this->getDoctrine()->getRepository(PaymentPlan::class)->findBy([
-            'isActive' => true,
-        ]);
 
         /** @var Payment[] $payments */
         $payments = $this->getDoctrine()->getRepository(Payment::class)->findBy([
@@ -57,12 +42,43 @@ class StudentController extends AbstractDashboardController
             }
         }
 
+        return [
+            'isSubscribed' => $isSubscribed,
+            'lastPayment' => $lastPayment
+        ];
+    }
+
+    /**
+     * @Route("/student", name="student")
+     */
+    public function index(): Response
+    {
+        $routeBuilder = $this->get(CrudUrlGenerator::class)->build();
+        $subscription = $this->getSubscription();
+
+        if ($subscription['isSubscribed']) {
+            return $this->redirect($routeBuilder->setController(LessonCrudController::class)->generateUrl());
+        } else {
+            return $this->redirectToRoute('student_subscription');
+        }
+    }
+
+    /**
+     * @Route("/student/subscription", name="student_subscription")
+     */
+    public function subscription(): Response
+    {
+        $plans = $this->getDoctrine()->getRepository(PaymentPlan::class)->findBy([
+            'isActive' => true,
+        ]);
+
+        $subscription = $this->getSubscription();
 
         return $this->render("student/subscription.html.twig", [
-            'payments' => $payments,
+//            'payments' => $payments,
             'plans' => $plans,
-            'isSubscribed' => $isSubscribed,
-            'lastPayment' => $lastPayment,
+            'isSubscribed' => $subscription['isSubscribed'],
+            'lastPayment' => $subscription['lastPayment'],
         ]);
     }
 
@@ -99,14 +115,14 @@ class StudentController extends AbstractDashboardController
         $lastPayment = $this->getDoctrine()->getRepository('App:Payment')->findLastPayment($this->getUser()->getStudent());
         $isSubscribed = false;
 
-        if ($lastPayment->getDate()->diff(new \DateTime())->days <= $lastPayment->getPlan()->getPeriod()) {
+        if ($lastPayment != null && $lastPayment->getDate()->diff(new \DateTime())->days <= $lastPayment->getPlan()->getPeriod()) {
             $isSubscribed = true;
         }
 
-        yield MenuItem::section('Programas');
-        yield MenuItem::linkToCrud('Programas', 'fa fa-users', Course::class);
-
         if ($isSubscribed) {
+            yield MenuItem::section('Programas');
+            yield MenuItem::linkToCrud('Programas', 'fa fa-users', Course::class);
+
             yield MenuItem::section('Aulas');
             yield MenuItem::linkToCrud('Aulas', 'fa fa-users', Lesson::class);
         }

@@ -52,7 +52,7 @@ class CourseCrudController extends AbstractCrudController
                 ->hideOnForm(),
             TextEditorField::new('description')->hideOnIndex(),
             DateTimeField::new('date', 'Fecha')->hideOnForm(),
-            BooleanField::new("isActive", "Active"),
+            BooleanField::new("isActive", "Active")->setPermission("ROLE_MODERATOR"),
         ];
     }
 }

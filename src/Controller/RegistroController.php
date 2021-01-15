@@ -15,14 +15,21 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistroController extends AbstractController
 {
+    private $encoder;
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+
+    }
+
     /**
      * @Route("/registro", name="registro")
      */
     public function index()
     {
         return $this->render('registro/index.html.twig', [
-            'registro_student' => 'student',
-            'registro_teacher' => 'teacher'
+            'registro_student' => 'Alumno',
+            'registro_teacher' => 'Maestro'
         ]);
     }
 
@@ -44,6 +51,7 @@ class RegistroController extends AbstractController
             $user->setEmail($email);
             $user->setRoles(array('ROLE_USER'));
 
+            $password = $this->encoder->encodePassword($user, $password);
             $user->setPassword($password);
 
             $student->setUser($user);
@@ -83,6 +91,8 @@ class RegistroController extends AbstractController
             $user = new User();
             $user->setEmail($email);
             $user->setRoles(array('ROLE_USER', 'ROLE_TEACHER'));
+
+            $password = $this->encoder->encodePassword($user, $password);
             $user->setPassword($password);
 
             $teacher->setUser($user);

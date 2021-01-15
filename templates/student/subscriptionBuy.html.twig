@@ -60,10 +60,14 @@
                                 body: JSON.stringify(details)
                             })
                                 .then((data) => {
-                                    debugger;
+                                    return data.json();
                                 })
                                 .then((response) => {
-                                    debugger
+                                    if (response.status == "SUCCESS") {
+                                        location.href = "{{ path("student") }}";
+                                    } else {
+                                        alert("PAYMENT ERROR");
+                                    }
                                 });
                         });
                     }

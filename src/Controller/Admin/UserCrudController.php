@@ -30,7 +30,7 @@ class UserCrudController extends AbstractCrudController
             ChoiceField::new('defaultLocale')->setChoices([
                 'Español' => 'es',
                 'English' => 'en',
-            ]),
+            ])->hideOnIndex(),
             DateTimeField::new('date')->onlyOnIndex(),
             ChoiceField::new('roles')->allowMultipleChoices()->setChoices([
                 'ROLE_USUARIO' => 'ROLE_USER',

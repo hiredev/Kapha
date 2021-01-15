@@ -6,7 +6,11 @@
 
 {% block main %}
 
-    subscription
+    {% for __plan in plans %}
+        <a href="{{ path("student_subscription_buy", {'id':__plan.id}) }}" class="btn btn-success">
+            {{ 'Buy subscription' }} {{ __plan.title }}
+        </a>
+    {% endfor %}
 
 {% endblock main %}
 

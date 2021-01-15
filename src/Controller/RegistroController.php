@@ -29,28 +29,32 @@ class RegistroController extends AbstractController
     /**
      * @Route("/registro/student", name="registro_student")
      */
-    public function student(Request $request){
+    public function student(Request $request)
+    {
         $student = new Student();
         $form = $this->createForm(StudentType::class, $student);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $student = $form->getData();
-            $email = $form->get('email')->getData();            
+            $email = $form->get('email')->getData();
             $password = $form->get('password')->getData();
 
             $user = new User();
             $user->setEmail($email);
-            $user->setRoles(array('ROLE_USER'));            
- 
-            $user->setPassword($password);    
+            $user->setRoles(array('ROLE_USER'));
+
+            $user->setPassword($password);
 
             $student->setUser($user);
+
+            $this->get("session")->set("new_user", $email);
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($student);
             $entityManager->flush();
-    
+
             return $this->redirectToRoute('registro_success');
         }
 
@@ -63,19 +67,22 @@ class RegistroController extends AbstractController
     /**
      * @Route("/registro/teacher", name="registro_teacher")
      */
-    public function teacher(Request $request){
+    public function teacher(Request $request)
+    {
         $teacher = new Teacher();
         $form = $this->createForm(TeacherType::class, $teacher);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $teacher = $form->getData();
-            $email = $form->get('email')->getData();            
+            $email = $form->get('email')->getData();
+            $this->get("session")->set("new_user", $email);
+
             $password = $form->get('password')->getData();
 
             $user = new User();
             $user->setEmail($email);
-            $user->setRoles(array('ROLE_USER','ROLE_TEACHER'));            
+            $user->setRoles(array('ROLE_USER', 'ROLE_TEACHER'));
             $user->setPassword($password);
 
             $teacher->setUser($user);
@@ -83,7 +90,7 @@ class RegistroController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($teacher);
             $entityManager->flush();
-    
+
             return $this->redirectToRoute('registro_success');
         }
 
@@ -96,7 +103,10 @@ class RegistroController extends AbstractController
     /**
      * @Route("/registro/success", name="registro_success")
      */
-    public function success(){
-        dd('suceso');
+    public function success()
+    {
+
+
+        return $this->redirectToRoute("app_login");
     }
 }

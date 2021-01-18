@@ -23,8 +23,9 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     private $tokenStorage;
 
     public function __construct(
-        AuthorizationCheckerInterface $authorizationChecker, 
-        TokenStorageInterface $tokenStorage){
+        AuthorizationCheckerInterface $authorizationChecker,
+        TokenStorageInterface $tokenStorage)
+    {
         $this->tokenStorage = $tokenStorage;
         $this->authorizationChecker = $authorizationChecker;
     }
@@ -45,68 +46,70 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 
         if (($entity instanceof Teacher)) {
             $user = $entity->getUser();
-            if(!$user){
+            if (!$user) {
                 $user = new User();
                 $entity->setUser($user);
-                $user->setEmail('xxxx'.rand().'@teacher.com');                
+                $user->setEmail('xxxx' . rand() . '@teacher.com');
             }
-            $user->setRoles(array('ROLE_USER','ROLE_TEACHER'));
+            $user->setRoles(array('ROLE_USER', 'ROLE_TEACHER'));
         }
 
         if (($entity instanceof Student)) {
             $user = $entity->getUser();
-            if(!$user){
+            if (!$user) {
                 $user = new User();
                 $entity->setUser($user);
-                $user->setEmail('xxxx'.rand().'@teacher.com');                
+                $user->setEmail('xxxx' . rand() . '@teacher.com');
             }
             $user->setRoles(array('ROLE_USER'));
         }
 
         if (($entity instanceof Lesson)) {
-            if ($this->authorizationChecker->isGranted('ROLE_TEACHER') && !$this->authorizationChecker->isGranted('ROLE_ADMIN') && !$this->authorizationChecker->isGranted('ROLE_MODERATOR')){
+            if ($this->authorizationChecker->isGranted('ROLE_TEACHER') && !$this->authorizationChecker->isGranted('ROLE_ADMIN') && !$this->authorizationChecker->isGranted('ROLE_MODERATOR')) {
                 $entity->setTeacher($user->getTeacher());
             }
         }
     }
 
-    public function actualizandoUser(BeforeEntityUpdatedEvent $event){
+    public function actualizandoUser(BeforeEntityUpdatedEvent $event)
+    {
         $entity = $event->getEntityInstance();
         if (($entity instanceof User)) {
             $newPassword = $entity->getNewPassword();
-            if($newPassword){
+            if ($newPassword) {
                 $entity->setPassword($newPassword);
-            }        
+            }
         }
     }
 
-    public function verificarPermisos(BeforeCrudActionEvent $event){
+    public function verificarPermisos(BeforeCrudActionEvent $event)
+    {
         $user = $this->tokenStorage->getToken()->getUser();
 
-        if(!$user){
+        if (!$user) {
             throw new AccessDeniedException();
         }
 
         if (!$this->authorizationChecker->isGranted('ROLE_ADMIN') && !$this->authorizationChecker->isGranted('ROLE_MODERATOR')) {
             $context = $event->getAdminContext();
             $entity = $context->getEntity();
-            if($entity){
+            if ($entity) {
                 $instance = $entity->getInstance();
 
-                if($instance instanceof Teacher){
-                    if($instance->getUser()->getId() != $user->getId()){
+                if ($instance instanceof Teacher) {
+                    if ($instance->getUser()->getId() != $user->getId()) {
                         dd($instance);
                         throw new AccessDeniedHttpException();
-                    }                
+                    }
                 }
-                if($instance instanceof User){
-                    if($instance->getId() != $user->getId()){
+                if ($instance instanceof User) {
+                    if ($instance->getId() != $user->getId()) {
                         throw new AccessDeniedException();
-                    }                
-                }            
+                    }
+                }
 
-                if($instance instanceof Lesson){
-                    if($instance->getTeacher()->getUser()->getId() != $user->getId()){
+                if ($instance instanceof Lesson) {
+                    if ($instance->getTeacher()->getUser()->getId() != $user->getId()) {
                         throw new AccessDeniedException();
                     }
                 }

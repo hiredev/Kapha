@@ -6,6 +6,7 @@
 parameters:
     app.path.course_image: images/programa
     app.path.lesson_image: images/aula
+    app.path.teacher_image: images/maestro
 #    app.zoom.client_id: S5NOG1rMTsKJa7RvQSUojA
 #    app.zoom.client_secret: kWnnvXrSD0ZADqNNTBJSC8GdTtdUxJ33
     app.zoom.client_id: lPNXq1czTXeKui27uERzw

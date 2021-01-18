@@ -156,9 +156,10 @@ class Course
         return $this;
     }
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->getTitle();
-    }    
+    }
 
     public function setImagenFile(File $imagen = null)
     {
@@ -187,7 +188,6 @@ class Course
     {
         return $this->imagen;
     }
-
 
     /**
      * @return mixed

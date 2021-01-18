@@ -86,7 +86,7 @@ class Categoria
     }
 
     /**
-     * @return Collection|Teacher[]
+     * @return Teacher[]
      */
     public function getTeachers(): Collection
     {

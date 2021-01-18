@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -81,7 +82,7 @@ class LessonCrudController extends AbstractCrudController
 //            IdField::new('id')->,
             TextField::new('titulo', 'Titulo'),
             TextEditorField::new('descripcion', 'Descripcion')->hideOnIndex(),
-            ImageField::new('imagenFile')
+            TextareaField::new('imagenFile')
                 ->setFormType(VichImageType::class)
                 ->setFormTypeOptions(['allow_delete' => false])
                 ->OnlyOnForms(),

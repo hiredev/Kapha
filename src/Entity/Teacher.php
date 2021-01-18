@@ -7,8 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+
 /**
  * @ORM\Entity(repositoryClass=TeacherRepository::class)
+ * @Vich\Uploadable
  */
 class Teacher
 {
@@ -28,6 +33,23 @@ class Teacher
      * @ORM\Column(type="string", length=255)
      */
     private $lastName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    private $imagen;
+
+    /**
+     * @Vich\UploadableField(mapping="teacher_images", fileNameProperty="imagen")
+     * @var File
+     */
+    private $imagenFile;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $biography;
 
     /**
      * @ORM\Column(type="string", length=500)
@@ -234,5 +256,83 @@ class Teacher
     {
         $this->isActive = $isActive;
         return $this;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getImagen(): ?string
+    {
+        return $this->imagen;
+    }
+
+    /**
+     * @param string $imagen
+     * @return Teacher
+     */
+    public function setImagen(string $imagen): Teacher
+    {
+        $this->imagen = $imagen;
+        return $this;
+    }
+
+    /**
+     * @return File
+     */
+    public function getImagenFile()
+    {
+        return $this->imagenFile;
+    }
+
+
+    public function setImagenFile(File $imagen = null)
+    {
+        $this->imagenFile = $imagen;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($imagen) {
+            // if 'date' is not defined in your entity, use another property
+            $this->date = new \DateTime('now');
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBiography()
+    {
+        return $this->biography;
+    }
+
+    /**
+     * @param mixed $biography
+     * @return Teacher
+     */
+    public function setBiography($biography)
+    {
+        $this->biography = $biography;
+        return $this;
+    }
+
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->imagen,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->image,
+            ) = unserialize($serialized, array('allowed_classes' => false));
     }
 }

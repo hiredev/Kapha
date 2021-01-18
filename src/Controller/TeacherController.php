@@ -12,7 +12,8 @@ class TeacherController extends AbstractController
 {
     protected $em;
 
-    public function __construct(EntityManagerInterface $em){
+    public function __construct(EntityManagerInterface $em)
+    {
         $this->em = $em;
     }
 
@@ -20,7 +21,7 @@ class TeacherController extends AbstractController
      * @Route("/ver_maestros/{categoria}", name="teachers")
      */
     public function index($categoria = '')
-    {        
+    {
         $categorias = $this->em->getRepository(Categoria::class)->findAll();
 
         return $this->render('teacher/index.html.twig', [

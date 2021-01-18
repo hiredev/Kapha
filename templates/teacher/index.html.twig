@@ -3,17 +3,30 @@
 {% block title %}Maestros{% endblock %}
 
 {% block body %}
-<section class="bg-white py-10">
-<div class="container">
-{% for categoria in categorias %}
-{{ categoria.titulo }}
-{% endfor %}
-</div>
-<div>
-<style>
-.page-header{
-    padding-top: 0px;
-    padding-bottom: 0px;    
-}
-</style>
+    <section class="bg-white py-10">
+        <div class="container">
+            {% for categoria in categorias %}
+                <div>
+                    <h1>{{ categoria.titulo }}</h1>
+                    <div class="col-md-12">
+                        {% for __teacher in categoria.teachers %}
+                            <div class="col-md-12" style="margin-bottom: 30px; display: flex">
+                                <div><img src="{{ __teacher }}" alt=""></div>
+                                <div>
+                                    <h2>{{ __teacher.firstName }} {{ __teacher.lastName }}</h2>
+                                </div>
+                                
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    <style>
+        .page-header {
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+    </style>
 {% endblock %}

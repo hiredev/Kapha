@@ -117,7 +117,7 @@ class Lesson
         $this->slug = $slug;
 
         return $this;
-    }    
+    }
 
     public function getDescripcion(): ?string
     {
@@ -231,9 +231,10 @@ class Lesson
     public function getImagen()
     {
         return $this->imagen;
-    }    
+    }
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->getTitulo();
     }
 

@@ -10,21 +10,25 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class TeacherCrudController extends AbstractCrudController
 {
-
 
 
     public static function getEntityFqcn(): string
@@ -39,12 +43,19 @@ class TeacherCrudController extends AbstractCrudController
             EmailField::new('email'),
             TextField::new('firstName', 'Nombre'),
             TextField::new('lastName', 'Apellido'),
+            TextEditorField::new('biography', 'Bio')->hideOnIndex(),
+            TextareaField::new('imagenFile')
+                ->setFormType(VichImageType::class)
+                ->setFormTypeOptions(['allow_delete' => false])
+                ->OnlyOnForms(),
+//            ImageField::new('imagen')
+//                ->setBasePath($this->getParameter('app.path.teacher_image'))
+//                ->hideOnForm(),
             AssociationField::new('categoria'),
             AssociationField::new('lessons')->onlyOnIndex(),
             BooleanField::new("isActive")
         ];
     }
-
 
 
     public function configureActions(Actions $actions): Actions

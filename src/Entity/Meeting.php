@@ -2,13 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\TeacherRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\HttpFoundation\File\File;
-
+use App\Repository\MeetingRepository;
 
 /**
  * @ORM\Entity(repositoryClass=MeetingRepository::class)

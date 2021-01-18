@@ -45,6 +45,11 @@ class Lesson
     private $link;
 
     /**
+     * @ORM\Column(type="string", length=150)
+     */
+    private $password;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @var string
      */

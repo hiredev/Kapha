@@ -23,12 +23,16 @@ class CuentaZoomRepository extends ServiceEntityRepository
     }
 
 
+    public function createMeeting()
+    {
+        $token = 123;
+        $response = $this->zoomRequest('/v2/users/me/meetings', http_build_query([
 
+        ]), "POST", $token);
 
-    public function createMeeting() {
+        dd($response);
 
     }
-
 
 
     public function zoomRequest($url, $fields_string, $method = 'POST', $token = FALSE, $headers = array())

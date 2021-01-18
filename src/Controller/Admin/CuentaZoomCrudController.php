@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\CuentaZoom;
+use App\Entity\Meeting;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,16 +27,16 @@ class CuentaZoomCrudController extends AbstractCrudController
         $repository = $this->getDoctrine()->getRepository(CuentaZoom::class);
 
         $response = $repository->zoomRequest(
-            'https://zoom.us/oauth/token', 
+            'https://zoom.us/oauth/token',
             http_build_query(array(
-                'grant_type' => 'authorization_code', 
-                'code' => $request->get('code'), 
-                'redirect_uri' => $this->generateUrl('zoom_token', array(), UrlGeneratorInterface::ABSOLUTE_URL))
-            ), 
-            'POST', 
+                    'grant_type' => 'authorization_code',
+                    'code' => $request->get('code'),
+                    'redirect_uri' => $this->generateUrl('zoom_token', array(), UrlGeneratorInterface::ABSOLUTE_URL))
+            ),
+            'POST',
             FALSE);
 
-        dump($response);
+//        dump($response);
         $zoom = new CuentaZoom();
         $zoom->setClientId($this->getParameter('app.zoom.client_id'));
         $zoom->setCode($request->get("code"));
@@ -46,6 +47,17 @@ class CuentaZoomCrudController extends AbstractCrudController
         $em->persist($zoom);
         $em->flush();
 
+        $meeting = $repository->zoomRequest('/v2/users/me/meetings', [
+            "topic" => "test meeting",
+            "type" => 2,
+            "start_time" => "2021-05-05T20:30:00",
+            "duration" => "30", // 30 mins
+            "password" => "123456"
+        ], "POST", $zoom->getAccessToken());
+
+        dump($meeting);
+        dd($zoom);
+
         return $this->redirectToRoute("admin");
 
     }
@@ -55,7 +67,18 @@ class CuentaZoomCrudController extends AbstractCrudController
      */
     public function install()
     {
-        return $this->redirect('https://zoom.us/oauth/authorize?response_type=code&client_id=' . $this->getParameter('app.zoom.client_id') .  '&redirect_uri=' . $this->generateUrl('zoom_token', array(), UrlGeneratorInterface::ABSOLUTE_URL));
+//        return $this->redirect('https://zoom.us/oauth/authorize?response_type=code&client_id=' . $this->getParameter('app.zoom.client_id') .  '&redirect_uri=' . $this->generateUrl('zoom_token', array(), UrlGeneratorInterface::ABSOLUTE_URL));
+    }
+
+    /**
+     * @Route("/admin/zoom_create_meeting", name="zoom_create_meeting")
+     */
+    public function createMeeting()
+    {
+        $repository = $this->getDoctrine()->getRepository(CuentaZoom::class);
+
+        $meeting = $repository->createMeeting();
+        dd($meeting);
     }
 
 
@@ -67,17 +90,17 @@ class CuentaZoomCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $this->crudUrlGenerator = $this->get(CrudUrlGenerator::class);
-        
+
         return [
-            TextField::new('code')            
+            TextField::new('code')
         ];
     }
 
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-        ->add(Crud::PAGE_INDEX, Action::DETAIL)
-        ->remove(Crud::PAGE_INDEX,Action::NEW)
-        ->remove(Crud::PAGE_INDEX,Action::EDIT);
-    }    
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->remove(Crud::PAGE_INDEX, Action::NEW)
+            ->remove(Crud::PAGE_INDEX, Action::EDIT);
+    }
 }

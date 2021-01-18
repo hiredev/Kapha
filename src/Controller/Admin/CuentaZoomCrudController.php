@@ -26,16 +26,18 @@ class CuentaZoomCrudController extends AbstractCrudController
     {
         $repository = $this->getDoctrine()->getRepository(CuentaZoom::class);
 
-        $response = $repository->zoomRequest(
-            'https://zoom.us/oauth/token',
-            http_build_query(array(
-                    'grant_type' => 'authorization_code',
-                    'code' => $request->get('code'),
-                    'redirect_uri' => $this->generateUrl('zoom_token', array(), UrlGeneratorInterface::ABSOLUTE_URL))
-            ),
-            'POST',
-            FALSE);
+//        $response = $repository->zoomRequest(
+//            '/oauth/token',
+//            http_build_query(array(
+//                    'grant_type' => 'authorization_code',
+//                    'code' => $request->get('code'),
+//                    'redirect_uri' => $this->generateUrl('zoom_token', array(), UrlGeneratorInterface::ABSOLUTE_URL))
+//            ),
+//            'POST',
+//            FALSE);
 
+        $auth = $repository->zoomOAuth($request->get('code'), $this->generateUrl('zoom_token', array(), UrlGeneratorInterface::ABSOLUTE_URL));
+        dd($auth);
 //        dump($response);
         $zoom = new CuentaZoom();
         $zoom->setClientId($this->getParameter('app.zoom.client_id'));
@@ -47,7 +49,7 @@ class CuentaZoomCrudController extends AbstractCrudController
         $em->persist($zoom);
         $em->flush();
 
-        $meeting = $repository->zoomRequest('/v2/users/me/meetings', [
+        $meeting = $repository->zoomRequest('/users/me/meetings', [
             "topic" => "test meeting",
             "type" => 2,
             "start_time" => "2021-05-05T20:30:00",

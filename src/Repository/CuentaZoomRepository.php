@@ -26,12 +26,26 @@ class CuentaZoomRepository extends ServiceEntityRepository
     public function createMeeting()
     {
         $token = 123;
-        $response = $this->zoomRequest('/v2/users/me/meetings', http_build_query([
+        $response = $this->zoomRequest('/users/me/meetings', http_build_query([
 
         ]), "POST", $token);
 
         dd($response);
 
+    }
+
+    public function zoomOAuth($code, $redirect)
+    {
+
+        $ch = curl_init("https://zoom.us/oauth/token");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, [
+            'grant_type' => 'authorization_code',
+            'code' => $code,
+            'redirect_uri' => $redirect
+        ]);
+        $response = curl_exec($ch);
+        return json_decode($response);
     }
 
 
@@ -53,7 +67,7 @@ class CuentaZoomRepository extends ServiceEntityRepository
         }
 
         $curl = curl_init();
-        curl_setopt_array($curl, array(
+        curl_setopt_array($curl, [
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
@@ -65,7 +79,7 @@ class CuentaZoomRepository extends ServiceEntityRepository
             //        CURLOPT_POST => true,
             CURLOPT_HTTPHEADER => $headers,
             //CURLOPT_USERPWD => ZOOM_CLIENT_ID . ':' . ZOOM_CLIENT_SECRET,
-        ));
+        ]);
 
         if ($method == 'POST') {
             curl_setopt($curl, CURLOPT_POSTFIELDS, $fields_string);

@@ -37,24 +37,26 @@ class CuentaZoomCrudController extends AbstractCrudController
 //            FALSE);
 
         $auth = $repository->zoomOAuth($request->get('code'), $this->generateUrl('zoom_token', array(), UrlGeneratorInterface::ABSOLUTE_URL));
-        dd($auth);
+//        dd($auth);
 //        dump($response);
         $zoom = new CuentaZoom();
         $zoom->setClientId($this->getParameter('app.zoom.client_id'));
         $zoom->setCode($request->get("code"));
-        $zoom->setAccessToken($response["access_token"]);
-        $zoom->setRefreshToken($response["refresh_token"]);
+        $zoom->setAccessToken($auth["access_token"]);
+        $zoom->setRefreshToken($auth["refresh_token"]);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($zoom);
         $em->flush();
 
-        $meeting = $repository->zoomRequest('/users/me/meetings', [
+        $password = $this->generatePassword();
+
+        $meeting = $repository->zoomRequest('https://api.zoom.us/v2/users/me/meetings', [
             "topic" => "test meeting",
             "type" => 2,
             "start_time" => "2021-05-05T20:30:00",
             "duration" => "30", // 30 mins
-            "password" => "123456"
+            "password" => $password,
         ], "POST", $zoom->getAccessToken());
 
         dump($meeting);
@@ -64,12 +66,17 @@ class CuentaZoomCrudController extends AbstractCrudController
 
     }
 
+    private function generatePassword()
+    {
+        return rand(1, 10).rand(1, 10).rand(1, 10).rand(1, 10).rand(1, 10).rand(1, 10).rand(1, 10).rand(1, 10);
+    }
+
     /**
      * @Route("/admin/zoom_create", name="zoom_create")
      */
     public function install()
     {
-//        return $this->redirect('https://zoom.us/oauth/authorize?response_type=code&client_id=' . $this->getParameter('app.zoom.client_id') .  '&redirect_uri=' . $this->generateUrl('zoom_token', array(), UrlGeneratorInterface::ABSOLUTE_URL));
+        return $this->redirect('https://zoom.us/oauth/authorize?response_type=code&client_id=' . $this->getParameter('app.zoom.client_id') . '&redirect_uri=' . $this->generateUrl('zoom_token', array(), UrlGeneratorInterface::ABSOLUTE_URL));
     }
 
     /**

@@ -44,8 +44,11 @@ class CuentaZoomRepository extends ServiceEntityRepository
             'code' => $code,
             'redirect_uri' => $redirect
         ]);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Authorization: Basic  " . base64_encode($this->client_id . ':' . $this->client_secret),
+        ]);
         $response = curl_exec($ch);
-        return json_decode($response);
+        return json_decode($response, true);
     }
 
 
@@ -82,7 +85,13 @@ class CuentaZoomRepository extends ServiceEntityRepository
         ]);
 
         if ($method == 'POST') {
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $fields_string);
+            curl_setopt($curl, CURLOPT_POST, TRUE);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Connection: Keep-Alive',
+                "Authorization: Bearer " . $token
+            ));
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($fields_string));
         }
 
         $verbose = fopen('php://temp', 'w+');
@@ -90,6 +99,9 @@ class CuentaZoomRepository extends ServiceEntityRepository
         curl_setopt($curl, CURLOPT_STDERR, $verbose);
 
         $response = curl_exec($curl);
+
+        return json_decode($response, true);
+
         $err = curl_error($curl);
 
 

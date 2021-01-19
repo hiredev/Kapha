@@ -50,7 +50,7 @@ class AdminController extends AbstractDashboardController
         yield MenuItem::section('Aulas');
         yield MenuItem::linkToCrud('Programas', 'fa fa-users', Course::class);
         yield MenuItem::linkToCrud('Aulas', 'fa fa-users', Lesson::class);
-        yield MenuItem::linkToCrud('Meeting', 'fa fa-users', Meeting::class);
+//        yield MenuItem::linkToCrud('Meeting', 'fa fa-users', Meeting::class);
 
         yield MenuItem::section('Zoom');
         yield MenuItem::linkToCrud('Cuentas Zoom', 'fa fa-file', CuentaZoom::class);

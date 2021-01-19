@@ -35,7 +35,7 @@ services:
 
   app.lesson.manager:
     class: App\Managers\LessonManager
-    arguments: ['@doctrine.orm.entity_manager', App\Managers\ZoomManager]
+    arguments: ['@router','@doctrine.orm.entity_manager', App\Managers\ZoomManager]
 
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones

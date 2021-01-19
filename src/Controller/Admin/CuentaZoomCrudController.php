@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\CuentaZoom;
 use App\Entity\Meeting;
+use App\Managers\ZoomManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -19,26 +20,22 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class CuentaZoomCrudController extends AbstractCrudController
 {
+
+    private $zoomManager;
+
+    public function __construct(ZoomManager $zoomManager)
+    {
+        $this->zoomManager = $zoomManager;
+    }
+
     /**
      * @Route("/admin/zoom_token", name="zoom_token")
      */
     public function token(Request $request)
     {
-        $repository = $this->getDoctrine()->getRepository(CuentaZoom::class);
 
-//        $response = $repository->zoomRequest(
-//            '/oauth/token',
-//            http_build_query(array(
-//                    'grant_type' => 'authorization_code',
-//                    'code' => $request->get('code'),
-//                    'redirect_uri' => $this->generateUrl('zoom_token', array(), UrlGeneratorInterface::ABSOLUTE_URL))
-//            ),
-//            'POST',
-//            FALSE);
+        $auth = $this->zoomManager->zoomOAuth($request->get('code'), $this->generateUrl('zoom_token', array(), UrlGeneratorInterface::ABSOLUTE_URL));
 
-        $auth = $repository->zoomOAuth($request->get('code'), $this->generateUrl('zoom_token', array(), UrlGeneratorInterface::ABSOLUTE_URL));
-//        dd($auth);
-//        dump($response);
         $zoom = new CuentaZoom();
         $zoom->setClientId($this->getParameter('app.zoom.client_id'));
         $zoom->setCode($request->get("code"));
@@ -49,25 +46,13 @@ class CuentaZoomCrudController extends AbstractCrudController
         $em->persist($zoom);
         $em->flush();
 
-        $password = $this->generatePassword();
-
-        $meeting = $repository->zoomRequest('https://api.zoom.us/v2/users/me/meetings', [
-            "topic" => "test meeting",
-            "type" => 2,
-            "start_time" => "2021-06-06T20:30:00",
-            "password" => $password,
-        ], "POST", $zoom->getAccessToken());
-
-        dump($meeting);
-        dd($zoom);
-
         return $this->redirectToRoute("admin");
 
     }
 
     private function generatePassword()
     {
-        return rand(1, 10).rand(1, 10).rand(1, 10).rand(1, 10).rand(1, 10).rand(1, 10).rand(1, 10).rand(1, 10);
+        return rand(1, 10) . rand(1, 10) . rand(1, 10) . rand(1, 10) . rand(1, 10) . rand(1, 10) . rand(1, 10) . rand(1, 10);
     }
 
     /**

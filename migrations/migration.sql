@@ -111,4 +111,6 @@
     ALTER TABLE teacher ADD imagen VARCHAR(255) DEFAULT NULL, ADD biography LONGTEXT NOT NULL;
     ALTER TABLE lesson ADD password VARCHAR(150) NOT NULL;
     ALTER TABLE lesson ADD zoom_payload LONGTEXT NOT NULL;
+    ALTER TABLE student ADD is_active TINYINT(1) NOT NULL;
+
 

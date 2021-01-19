@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Payment;
+use App\Entity\PaymentPlan;
 use App\Entity\Student;
 use App\Entity\Teacher;
 use App\Entity\User;
 use App\Form\StudentType;
 use App\Form\TeacherType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +19,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RegistroController extends AbstractController
 {
     private $encoder;
+
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
         $this->encoder = $encoder;
@@ -63,13 +67,102 @@ class RegistroController extends AbstractController
             $entityManager->persist($student);
             $entityManager->flush();
 
-            return $this->redirectToRoute('registro_success');
+            $this->get("session")->set("new_user_id", $student->getId());
+
+            return $this->redirectToRoute('registro_student_step2');
         }
 
         return $this->render(
             'registro/student.html.twig',
             ['formulario' => $form->createView()]
         );
+    }
+
+    /**
+     * @Route("/registro/student/step2", name="registro_student_step2")
+     */
+    public function studentStep2(Request $request)
+    {
+        $id = $this->get("session")->get("new_user_id");
+        if (!$id) {
+            return $this->redirectToRoute('registro_student');
+        }
+        $student = $this->getDoctrine()->getRepository("App:Student")->find($id);
+        if (!$student) {
+            return $this->redirectToRoute('registro_student');
+        }
+
+        $plans = $this->getDoctrine()->getRepository("App:PaymentPlan")->findBy([
+            'isActive' => true,
+        ]);
+
+        return $this->render("registro/step2.html.twig", [
+            'plans' => $plans,
+        ]);
+
+
+        //        $student
+    }
+
+    /**
+     * @Route("/registro/student/step3/{id}", name="registro_student_step3")
+     */
+    public function studentStep3(Request $request, PaymentPlan $paymentPlan)
+    {
+        if (!$paymentPlan)
+            return $this->redirectToRoute('registro_student');
+
+        $id = $this->get("session")->get("new_user_id");
+        if (!$id)
+            return $this->redirectToRoute('registro_student');
+
+        $student = $this->getDoctrine()->getRepository("App:Student")->find($id);
+
+        if (!$student)
+            return $this->redirectToRoute('registro_student');
+
+
+        return $this->render("registro/step3.html.twig", [
+            'plan' => $paymentPlan,
+            'student' => $student,
+        ]);
+    }
+
+    /**
+     * @Route("/registro/student/step3/{id}/verify", name="registro_student_step3_verify")
+     */
+    public function studentStep3verisy(Request $request, PaymentPlan $paymentPlan)
+    {
+
+
+        $paypalObj = json_decode($request->getContent());
+        if ($paypalObj->status == "COMPLETED") {
+            $id = $this->get("session")->get("new_user_id");
+            $student = $this->getDoctrine()->getRepository("App:Student")->find($id);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $plan = $this->getDoctrine()->getRepository(PaymentPlan::class)->find($request->get("id"));
+
+            $payment = new Payment();
+            $payment->setPlan($em->getReference(PaymentPlan::class, $plan->getId()));
+            $payment->setTransaction($paypalObj->id);
+            $payment->setPayload($request->getContent());
+            $payment->setStudent($student);
+            $payment->setAmount($plan->getAmount());
+            $payment->setMethod("PayPal");
+
+            $em->persist($payment);
+            $em->flush();
+
+            return new JsonResponse([
+                'status' => 'SUCCESS',
+            ]);
+        }
+        return new JsonResponse([
+            'status' => 'FAILED',
+        ]);
+
     }
 
     /**

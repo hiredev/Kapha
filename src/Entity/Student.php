@@ -45,8 +45,14 @@ class Student
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
     public function __construct()
     {
+        $this->isActive = false;
         $this->payments = new ArrayCollection();
         $this->lessons = new ArrayCollection();
     }
@@ -158,16 +164,37 @@ class Student
 
     public function setEmail(string $email): self
     {
-        if(!$this->user){
+        if (!$this->user) {
             $this->user = new User;
         }
 
         $this->user->setEmail($email);
 
         return $this;
-    }    
+    }
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->getFirstName() . ' ' . $this->getLastName();
-    }    
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param mixed $isActive
+     * @return Student
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+        return $this;
+    }
+
 }

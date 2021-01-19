@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registro!{% endblock %}
+
+{% block header %}
+    <div style="font-size: 18px; font-weight: bold">
+        PAYPAL DEMO<br>
+        email: sb-q47noi4704629@personal.example.com<br>
+        pass: 123123123<br>
+
+    </div>
+
+    <div style="display: flex">
+        <script src="https://www.paypal.com/sdk/js?client-id=AQmeXc_sCuNVKmDEF_mKobRhY1-f368oKG0q2HkSdazBBO3FHJArfK4_df9NDRH4nCyGo7Y7m9tqtZCv"></script>
+
+
+        <div style="flex: 1;">
+            <table>
+                <tr>
+                    <td colspan="2">{{ "Your subscription plan" | trans }}</td>
+                </tr>
+                <tr>
+                    <td>{{ "Period" }}</td>
+                    <td>{{ plan.period }} {{ "days" | trans }}</td>
+                </tr>
+                <tr>
+                    <td>{{ "Price" }}</td>
+                    <td>{{ plan.amount }} {{ "$" | trans }}</td>
+                </tr>
+            </table>
+        </div>
+        <div style="flex: 1;">
+            <div id="paypal-buttons"></div>
+            <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
+            <script>paypal.Buttons({
+                    createOrder: function (data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: {{ plan.amount }}
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: function (data, actions) {
+                        // This function captures the funds from the transaction.
+
+                        return actions.order.capture().then(function (details) {
+                            fetch("{{ path("registro_student_step3_verify", {id:plan.id}) }}", {
+                                method: 'POST',
+                                mode: 'cors',
+                                cache: 'no-cache',
+                                credentials: 'same-origin',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                redirect: 'follow',
+                                referrerPolicy: 'no-referrer',
+                                body: JSON.stringify(details)
+                            })
+                                .then((data) => {
+                                    return data.json();
+                                })
+                                .then((response) => {
+                                    if (response.status == "SUCCESS") {
+                                        location.href = "{{ path("student") }}";
+                                    } else {
+                                        alert("PAYMENT ERROR");
+                                    }
+                                });
+                        });
+                    }
+                }).render('#paypal-buttons');</script>
+        </div>
+    </div>
+{% endblock %}

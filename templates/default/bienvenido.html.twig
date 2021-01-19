@@ -304,30 +304,29 @@
     </section>
     <section class="bg-white pt-10">
         <div class="text-center mb-5">
-            <h1>Maestros</h1>
+            <h1>{{ 'Maestros' | trans }}</h1>
         </div>
         <div class="container">
             <div class="row mb-10">
-                <div class="col-lg-6 mb-5 mb-lg-0 divider-right" data-aos="fade">
-                    <div class="testimonial p-lg-5">
-                        <p class="testimonial-quote text-primary">"Colombiana viviendo en México. Maestra de Kundalini
-                            yoga y Meditación, también soy Terapeuta Nutricional Funcional y como Co-creadora de KAPHA
-                            es una gran oportunidad para mi el poder compartir el conocimiento de los beneficios de esta
-                            práctica en la que creo profundamente."</p>
-                        <div class="testimonial-name">Rocío Sanchez</div>
-                        <div class="testimonial-position">Kundalini</div>
+                {% for __teacher in teachers %}
+                    <div class="col-lg-6 mb-5 mb-lg-0 divider-right" data-aos="fade">
+                        <div class="testimonial p-lg-5">
+                            <p class="testimonial-quote text-primary">{{ __teacher.biography | raw }}</p>
+                            <div class="testimonial-name">{{ __teacher.firstName }} {{ __teacher.lastName }}</div>
+                            <div class="testimonial-position">Kundalini</div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-6" data-aos="fade" data-aos-delay="100">
-                    <div class="testimonial p-lg-5">
-                        <p class="testimonial-quote text-primary">"Vivo en Alemania y soy maestro de Yoga internacional.
-                            Aprendiendo y enseñando los últimos 17 años en diferentes países. Con mi trabajo espero
-                            brindar a personas de todas las edades la oportunidad de descubrir los numerosos y poderosos
-                            beneficios de Yoga multidimensional - Yoga y Meditación."</p>
-                        <div class="testimonial-name">Oscar Sanchez</div>
-                        <div class="testimonial-position">Yoga Multidimensional</div>
-                    </div>
-                </div>
+                {% endfor %}
+                {#<div class="col-lg-6" data-aos="fade" data-aos-delay="100">#}
+                {#    <div class="testimonial p-lg-5">#}
+                {#        <p class="testimonial-quote text-primary">"Vivo en Alemania y soy maestro de Yoga internacional.#}
+                {#            Aprendiendo y enseñando los últimos 17 años en diferentes países. Con mi trabajo espero#}
+                {#            brindar a personas de todas las edades la oportunidad de descubrir los numerosos y poderosos#}
+                {#            beneficios de Yoga multidimensional - Yoga y Meditación."</p>#}
+                {#        <div class="testimonial-name">Oscar Sanchez</div>#}
+                {#        <div class="testimonial-position">Yoga Multidimensional</div>#}
+                {#    </div>#}
+                {#</div>#}
             </div>
         </div>
     </section>

@@ -15,26 +15,36 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
+        $teachers = $this->getDoctrine()->getRepository('App:Teacher')->findBy([
+            'isActive' => true,
+        ], [
+            'id' => "ASC"
+        ], 2);
+
         return $this->render('default/bienvenido.html.twig', [
             'controller_name' => 'DefaultController',
+            'teachers' => $teachers,
         ]);
     }
 
-    public function menu(){
+    public function menu()
+    {
         return $this->render('default/menu.html.twig');
     }
 
     /**
      * @Route("/nosotros", name="nosotros")
      */
-    public function nosotros(){
+    public function nosotros()
+    {
         return $this->render('default/nosotros.html.twig');
     }
 
     /**
      * @Route("/privacy_policy", name="privacy_policy")
      */
-    public function privacy_policy(){
+    public function privacy_policy()
+    {
         return $this->render('default/privacy.html.twig');
     }
 
@@ -42,14 +52,16 @@ class DefaultController extends AbstractController
     /**
      * @Route("/faq", name="faq")
      */
-    public function faq(){
+    public function faq()
+    {
         return $this->render('default/faq.html.twig');
     }
 
     /**
      * @Route("/ayuda", name="ayuda")
      */
-    public function ayuda(Request $request){
+    public function ayuda(Request $request)
+    {
         $contato = new Contacto();
         $form = $this->createForm(ContactoType::class, $contato);
 

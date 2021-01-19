@@ -79,24 +79,24 @@ class LessonCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-//            IdField::new('id')->,
+            // IdField::new('id')->,
+            ImageField::new('imagen')
+                ->setBasePath($this->getParameter('app.path.lesson_image'))
+                ->hideOnForm(),
             TextField::new('titulo', 'Titulo'),
+            AssociationField::new('course'),
+            AssociationField::new('teacher')->autocomplete(),
+            DateTimeField::new('date', 'Fecha'),
             TextEditorField::new('descripcion', 'Descripcion')->hideOnIndex(),
             TextareaField::new('imagenFile')
                 ->setFormType(VichImageType::class)
                 ->setFormTypeOptions(['allow_delete' => false])
                 ->OnlyOnForms(),
-            ImageField::new('imagen')
-                ->setBasePath($this->getParameter('app.path.lesson_image'))
-                ->hideOnForm(),
-            UrlField::new('link')->hideOnIndex(),
-            DateTimeField::new('date', 'Fecha'),
-            AssociationField::new('course'),
-            AssociationField::new('teacher')->autocomplete(),
+            UrlField::new('link', 'ZOOM url')->hideOnForm(),
+            TextField::new('password')->hideOnForm(),
             BooleanField::new("isActive")->setPermission("ROLE_MODERATOR")
         ];
     }
-
 
 
     public function configureActions(Actions $actions): Actions
@@ -108,7 +108,6 @@ class LessonCrudController extends AbstractCrudController
             ->setPermission(Action::EDIT, "ROLE_MODERATOR")
             ->setPermission(Action::NEW, "ROLE_MODERATOR")
             ->setPermission(Action::DELETE, "ROLE_MODERATOR")
-            ->setPermission(Action::SAVE_AND_CONTINUE, "ROLE_MODERATOR")
-            ;
+            ->setPermission(Action::SAVE_AND_CONTINUE, "ROLE_MODERATOR");
     }
 }

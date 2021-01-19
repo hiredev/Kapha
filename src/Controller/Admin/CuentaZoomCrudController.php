@@ -54,8 +54,7 @@ class CuentaZoomCrudController extends AbstractCrudController
         $meeting = $repository->zoomRequest('https://api.zoom.us/v2/users/me/meetings', [
             "topic" => "test meeting",
             "type" => 2,
-            "start_time" => "2021-05-05T20:30:00",
-            "duration" => "30", // 30 mins
+            "start_time" => "2021-06-06T20:30:00",
             "password" => $password,
         ], "POST", $zoom->getAccessToken());
 

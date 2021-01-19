@@ -49,6 +49,7 @@ class Lesson
      */
     private $password;
 
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @var string
@@ -88,9 +89,15 @@ class Lesson
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $zoomPayload;
+
 
     public function __construct()
     {
+        $this->isActive = true;
         $this->students = new ArrayCollection();
         $this->date = new \DateTime('now');
     }
@@ -260,4 +267,43 @@ class Lesson
         $this->isActive = $isActive;
         return $this;
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param mixed $password
+     * @return Lesson
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getZoomPayload()
+    {
+        return $this->zoomPayload;
+    }
+
+    /**
+     * @param mixed $zoomPayload
+     * @return Lesson
+     */
+    public function setZoomPayload($zoomPayload)
+    {
+        $this->zoomPayload = $zoomPayload;
+        return $this;
+    }
+
 }

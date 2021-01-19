@@ -2,7 +2,10 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Lesson;
 use App\Entity\User;
+use App\Managers\LessonManager;
+use App\Repository\CuentaZoomRepository;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -13,10 +16,12 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 class MyEntityListener
 {
     private $passwordEncoder;
+    private $lessonManager;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, LessonManager $lessonManager)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->lessonManager = $lessonManager;
     }
 
     public function prePersist(LifecycleEventArgs $args)
@@ -54,7 +59,13 @@ class MyEntityListener
 
     protected function preQuery(LifecycleEventArgs $args)
     {
+
         $entity = $args->getObject();
+
+        if ($entity instanceof Lesson) {
+            $entity = $this->lessonManager->createZoomMeeting($entity);
+//            dd($entity);
+        }
 
         if (method_exists($entity, 'setFecha')) {
             $entity->setFecha(new \Datetime());

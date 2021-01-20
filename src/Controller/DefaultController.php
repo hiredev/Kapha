@@ -27,10 +27,17 @@ class DefaultController extends AbstractController
             'id' => "ASC"
         ], 4);
 
+        $plans = $this->getDoctrine()->getRepository('App:PaymentPlan')->findBy([
+            'isActive' => true,
+        ], [
+            'id' => "ASC"
+        ], 3);
+
         return $this->render('default/bienvenido.html.twig', [
             'controller_name' => 'DefaultController',
             'teachers' => $teachers,
             'courses' => $courses,
+            'plans' => $plans,
         ]);
     }
 

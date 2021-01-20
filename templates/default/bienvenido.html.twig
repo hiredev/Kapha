@@ -82,36 +82,37 @@
                         </p>
                     </div>
                     <div class="row">
+                        {% for __course in courses %}
                         <div class="col-md-6 mb-4">
-                            <h6>Vinyasa Yoga</h6>
-                            <p class="mb-2 small">Vinyasa, también llamado Flow, es un tipo de yoga dinámico basado en
-                                la unión de movimiento y respiración a lo largo de secuencias de posturas (asanas)
-                                enlazadas entre sí.</p>
+                            <h6>{{ __course.title }}</h6>
+                            <p class="mb-2 small">
+                                {{ __course.description }}
+                            </p>
                             <a class="small text-arrow-icon" href="#!">Leer más<i data-feather="arrow-right"></i></a>
                         </div>
-                        <div class="col-md-6 mb-4">
-                            <h6>Hatha Yoga</h6>
-                            <p class="mb-2 small mb-0">El Hatha yoga es un tipo de yoga que destaca por su práctica de
-                                asanas (posturas corporales) y pranayamas (para controlar la respiración y que ayudan a
-                                la meditación).</p>
-                            <a class="small text-arrow-icon" href="#!">Leer más<i data-feather="arrow-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-4">
-                            <h6>Yin Yoga</h6>
-                            <p class="mb-2 small mb-0">Qué es Yin Yoga? No hay necesariamente una sola respuesta a esa
-                                pregunta que le haga justicia comparada a la propia experiencia, es un estilo más pasivo
-                                y lento, siendo a la vez intenso y meditativo.</p>
-                            <a class="small text-arrow-icon" href="#!">Leer más<i data-feather="arrow-right"></i></a>
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <h6>Kundalini Yoga</h6>
-                            <p class="small mb-0">Kundalini Yoga se llama el yoga de la conciencia . Se trata de una
-                                herramienta dinámica y poderosa que está diseñada para darle una experiencia al cuerpo,
-                                la mente y al espíritu desde el alma.</p>
-                            <a class="small text-arrow-icon" href="#!">Leer más<i data-feather="arrow-right"></i></a>
-                        </div>
+                        {% endfor %}
+{#                        <div class="col-md-6 mb-4">#}
+{#                            <h6>Hatha Yoga</h6>#}
+{#                            <p class="mb-2 small mb-0">El Hatha yoga es un tipo de yoga que destaca por su práctica de#}
+{#                                asanas (posturas corporales) y pranayamas (para controlar la respiración y que ayudan a#}
+{#                                la meditación).</p>#}
+{#                            <a class="small text-arrow-icon" href="#!">Leer más<i data-feather="arrow-right"></i></a>#}
+{#                        </div>#}
+{#                    #}
+{#                        <div class="col-md-6 mb-4">#}
+{#                            <h6>Yin Yoga</h6>#}
+{#                            <p class="mb-2 small mb-0">Qué es Yin Yoga? No hay necesariamente una sola respuesta a esa#}
+{#                                pregunta que le haga justicia comparada a la propia experiencia, es un estilo más pasivo#}
+{#                                y lento, siendo a la vez intenso y meditativo.</p>#}
+{#                            <a class="small text-arrow-icon" href="#!">Leer más<i data-feather="arrow-right"></i></a>#}
+{#                        </div>#}
+{#                        <div class="col-md-6 mb-4">#}
+{#                            <h6>Kundalini Yoga</h6>#}
+{#                            <p class="small mb-0">Kundalini Yoga se llama el yoga de la conciencia . Se trata de una#}
+{#                                herramienta dinámica y poderosa que está diseñada para darle una experiencia al cuerpo,#}
+{#                                la mente y al espíritu desde el alma.</p>#}
+{#                            <a class="small text-arrow-icon" href="#!">Leer más<i data-feather="arrow-right"></i></a>#}
+{#                        </div>#}
                     </div>
                 </div>
             </div>

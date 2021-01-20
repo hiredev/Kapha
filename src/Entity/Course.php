@@ -66,6 +66,30 @@ class Course
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $order;
+
+    /**
+     * @return mixed
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param mixed $order
+     * @return Course
+     * @return Course
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+        return $this;
+    }
+
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;

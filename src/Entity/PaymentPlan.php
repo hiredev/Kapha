@@ -48,6 +48,28 @@ class PaymentPlan
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $order;
+
+    /**
+     * @return mixed
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param mixed $order
+     * @return PaymentPlan
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+        return $this;
+    }
 
     private $html;
 

@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -50,6 +51,7 @@ class CourseCrudController extends AbstractCrudController
             ImageField::new('imagen')
                 ->setBasePath($this->getParameter('app.path.course_image'))
                 ->hideOnForm(),
+            NumberField::new('order', "Display order")->onlyOnForms(),
             TextEditorField::new('description')->hideOnIndex(),
             DateTimeField::new('date', 'Fecha')->hideOnForm(),
             BooleanField::new("isActive", "Active")->setPermission("ROLE_MODERATOR"),

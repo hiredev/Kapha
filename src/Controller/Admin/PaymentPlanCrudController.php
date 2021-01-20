@@ -42,6 +42,7 @@ class PaymentPlanCrudController extends AbstractCrudController
             NumberField::new('amount', 'Monto'),
             NumberField::new('period', 'Period days'),
             TextareaField::new('description', 'Description'),
+            NumberField::new('order', "Display order")->onlyOnForms(),
         ];
     }
 

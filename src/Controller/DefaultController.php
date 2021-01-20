@@ -18,19 +18,19 @@ class DefaultController extends AbstractController
         $teachers = $this->getDoctrine()->getRepository('App:Teacher')->findBy([
             'isActive' => true,
         ], [
-            'id' => "ASC"
+            'order' => "ASC"
         ], 2);
 
         $courses = $this->getDoctrine()->getRepository('App:Course')->findBy([
             'isActive' => true,
         ], [
-            'id' => "ASC"
+            'order' => "ASC"
         ], 4);
 
         $plans = $this->getDoctrine()->getRepository('App:PaymentPlan')->findBy([
             'isActive' => true,
         ], [
-            'id' => "ASC"
+            'order' => "ASC"
         ], 3);
 
         return $this->render('default/bienvenido.html.twig', [

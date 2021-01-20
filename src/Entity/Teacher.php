@@ -85,6 +85,29 @@ class Teacher
      */
     private $categoria;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $order;
+
+    /**
+     * @return mixed
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param mixed $order
+     * @return Teacher
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+        return $this;
+    }
+
     public function __construct()
     {
         $this->payouts = new ArrayCollection();

@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 
@@ -53,7 +54,9 @@ class TeacherCrudController extends AbstractCrudController
 //                ->hideOnForm(),
             AssociationField::new('categoria'),
             AssociationField::new('lessons')->onlyOnIndex(),
-            BooleanField::new("isActive")
+            BooleanField::new("isActive"),
+            NumberField::new('order', "Display order")->onlyOnForms(),
+
         ];
     }
 

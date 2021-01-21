@@ -88,25 +88,26 @@ class Teacher
     /**
      * @ORM\Column(type="integer")
      */
-    private $order;
+    private $displayOrder;
 
     /**
      * @return mixed
      */
-    public function getOrder()
+    public function getDisplayOrder()
     {
-        return $this->order;
+        return $this->displayOrder;
     }
 
     /**
-     * @param mixed $order
-     * @return Teacher
+     * @param mixed $displayOrder
+     * @return Course
      */
-    public function setOrder($order)
+    public function setDisplayOrder($displayOrder)
     {
-        $this->order = $order;
+        $this->displayOrder = $displayOrder;
         return $this;
     }
+
 
     public function __construct()
     {

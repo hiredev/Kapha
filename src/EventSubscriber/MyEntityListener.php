@@ -73,7 +73,7 @@ class MyEntityListener
 
         if (method_exists($entity, 'setSlug')) {
             $slug = '';
-dd($entity);
+
             if (method_exists($entity, 'getFirstName')) {
                 $slug .= $entity->getFirstName() . ' ';
             }

@@ -29,7 +29,9 @@ class LessonManager
 
     public function createZoomMeeting(Lesson $lesson)
     {
-        $zoom = $this->entityManager->getRepository("App:CuentaZoom")->find(1);
+        $zoom = $this->entityManager->getRepository("App:CuentaZoom")->findBy([], [
+            'id' => 'DESC'
+        ], 1)[0];
         if (!$zoom) {
             return new RedirectResponse($this->router->generate("zoom_create"));
             dd($this->container);

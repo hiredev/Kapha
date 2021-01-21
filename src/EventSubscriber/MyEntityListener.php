@@ -64,7 +64,7 @@ class MyEntityListener
 
         if ($entity instanceof Lesson) {
             $entity = $this->lessonManager->createZoomMeeting($entity);
-//            dd($entity);
+
         }
 
         if (method_exists($entity, 'setFecha')) {
@@ -73,17 +73,20 @@ class MyEntityListener
 
         if (method_exists($entity, 'setSlug')) {
             $slug = '';
-
-            if (method_exists($entity, 'getNombre')) {
-                $slug .= $entity->getNombre() . ' ';
+dd($entity);
+            if (method_exists($entity, 'getFirstName')) {
+                $slug .= $entity->getFirstName() . ' ';
             }
 
-            if (method_exists($entity, 'getApellido')) {
-                $slug .= $entity->getApellido() . ' ';
+            if (method_exists($entity, 'getLastName')) {
+                $slug .= $entity->getLastName() . ' ';
             }
-
             if (method_exists($entity, 'getTitulo')) {
                 $slug .= $entity->getTitulo() . ' ';
+            }
+
+            if (method_exists($entity, 'getTitle')) {
+                $slug .= $entity->getTitle() . ' ';
             }
 
             $slug .= $entity->getId();

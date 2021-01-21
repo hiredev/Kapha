@@ -16,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
@@ -67,6 +68,12 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         if (($entity instanceof Lesson)) {
             if ($this->authorizationChecker->isGranted('ROLE_TEACHER') && !$this->authorizationChecker->isGranted('ROLE_ADMIN') && !$this->authorizationChecker->isGranted('ROLE_MODERATOR')) {
                 $entity->setTeacher($user->getTeacher());
+            }
+            if ($entity->getSlug() == null) {
+                $slug = $entity->getTitulo(). " " .$entity->getCourse()->getTitle() ." " .$entity->getId();
+                $slugger = new AsciiSlugger();
+                $slug = $slugger->slug($slug);
+                $entity->setSlug($slug);
             }
         }
     }

@@ -46,17 +46,20 @@ class ZoomManager
 
     private function refreshToken($refreshToken)
     {
-        $ch = curl_init("https://zoom.us/oauth/token");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, [
-            'grant_type' => 'refresh_token',
-            "refresh_token" => $refreshToken
+        $ch = curl_init("https://zoom.us/oauth/token?".http_build_query([
+                'grant_type' => 'refresh_token',
+                "refresh_token" => $refreshToken
+            ])
+        );
 
-        ]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Authorization: Basic  " . base64_encode($this->client_id . ':' . $this->client_secret),
+            "Authorization: Basic " . base64_encode($this->client_id . ':' . $this->client_secret),
         ]);
+
         $response = curl_exec($ch);
+
         dd($response);
         return json_decode($response, true);
     }

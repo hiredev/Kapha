@@ -91,6 +91,30 @@ class Teacher
     private $displayOrder;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDeleted;
+
+    /**
+     * @return mixed
+     */
+    public function getIsDeleted()
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * @param mixed $isDeleted
+     * @return Teacher
+     */
+    public function setIsDeleted($isDeleted)
+    {
+        $this->isDeleted = $isDeleted;
+        return $this;
+    }
+
+
+    /**
      * @return mixed
      */
     public function getDisplayOrder()
@@ -114,6 +138,7 @@ class Teacher
         $this->payouts = new ArrayCollection();
         $this->lessons = new ArrayCollection();
         $this->isActive = true;
+        $this->isDeleted = false;
     }
 
     public function getId(): ?int

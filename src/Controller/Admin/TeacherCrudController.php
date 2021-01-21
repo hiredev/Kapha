@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Teacher;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -31,6 +33,20 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 class TeacherCrudController extends AbstractCrudController
 {
 
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    {
+
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine')->getManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select("t")
+            ->from("App:Teacher", 't')
+            ->where('t.isDeleted = false')
+            ->setParameters([
+            ]);
+
+        return $qb;
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -55,9 +71,17 @@ class TeacherCrudController extends AbstractCrudController
             AssociationField::new('categoria'),
             AssociationField::new('lessons')->onlyOnIndex(),
             BooleanField::new("isActive"),
-            NumberField::new('order', "Display order")->onlyOnForms(),
+            NumberField::new('displayOrder', "Display order")->onlyOnForms(),
 
         ];
+    }
+
+    public function deleteEntity(EntityManagerInterface $entityManager, $teacher):void {
+
+        $teacher->setIsDeleted(true);
+        $teacher->getUser()->setIsDeleted(true);
+        $entityManager->persist($teacher);
+        $entityManager->flush();
     }
 
 

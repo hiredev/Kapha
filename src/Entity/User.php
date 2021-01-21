@@ -62,6 +62,12 @@ class User implements UserInterface
     private $teacher;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDeleted;
+
+
+    /**
      * @ORM\Column(type="string", length=2, nullable=true)
      */
     private $defaultLocale;
@@ -234,6 +240,7 @@ class User implements UserInterface
     public function __construct(){
         $this->date = new \Datetime();
         $this->defaultLocale = 'es';
+        $this->isDeleted = false;
     }
 
     /**
@@ -253,4 +260,25 @@ class User implements UserInterface
         $this->defaultLocale = $defaultLocale;
         return $this;
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function getIsDeleted()
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * @param mixed $isDeleted
+     * @return User
+     */
+    public function setIsDeleted($isDeleted)
+    {
+        $this->isDeleted = $isDeleted;
+        return $this;
+    }
+
+
 }

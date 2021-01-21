@@ -51,7 +51,7 @@ class CourseCrudController extends AbstractCrudController
             ImageField::new('imagen')
                 ->setBasePath($this->getParameter('app.path.course_image'))
                 ->hideOnForm(),
-            NumberField::new('order', "Display order")->onlyOnForms(),
+            NumberField::new('displayOrder', "Display order")->onlyOnForms(),
             TextEditorField::new('description')->hideOnIndex(),
             DateTimeField::new('date', 'Fecha')->hideOnForm(),
             BooleanField::new("isActive", "Active")->setPermission("ROLE_MODERATOR"),

@@ -5,6 +5,7 @@ namespace App\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CategoriaRepository;
 use App\Entity\Categoria;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -17,15 +18,13 @@ class TeacherController extends AbstractController
         $this->em = $em;
     }
 
-    /**
-     * @Route("/ver_maestros/{categoria}", name="teachers")
-     */
-    public function index($categoria = '')
-    {
-        $categorias = $this->em->getRepository(Categoria::class)->findAll();
+//    /**
+//     * @Route("/ver_maestros", name="teachers")
+//     */
+//    public function index(Request $request)
+//    {
+//        $teache
+//    }
 
-        return $this->render('teacher/index.html.twig', [
-            'categorias' => $categorias,
-        ]);
-    }
+
 }

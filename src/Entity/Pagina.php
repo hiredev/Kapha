@@ -23,6 +23,21 @@ class Pagina
     private $titulo;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $path;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $menuOrder;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $showInMenu;
+
+    /**
      * @ORM\Column(type="text")
      */
     private $html;
@@ -55,4 +70,60 @@ class Pagina
 
         return $this;
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param mixed $path
+     * @return Pagina
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMenuOrder()
+    {
+        return $this->menuOrder;
+    }
+
+    /**
+     * @param mixed $menuOrder
+     * @return Pagina
+     */
+    public function setMenuOrder($menuOrder)
+    {
+        $this->menuOrder = $menuOrder;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShowInMenu()
+    {
+        return $this->showInMenu;
+    }
+
+    /**
+     * @param mixed $showInMenu
+     * @return Pagina
+     */
+    public function setShowInMenu($showInMenu)
+    {
+        $this->showInMenu = $showInMenu;
+        return $this;
+    }
+
 }

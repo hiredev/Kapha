@@ -13,3 +13,9 @@ hwi_oauth_connect:
 hwi_oauth_login:
     resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
     prefix:   /login
+
+
+random_page:
+    controller: App\Controller\RandomPageController::randomPage
+    path:   /{path}
+

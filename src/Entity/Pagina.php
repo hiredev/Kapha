@@ -42,6 +42,12 @@ class Pagina
      */
     private $html;
 
+    public function __construct()
+    {
+        $this->menuOrder = 0;
+        $this->showInMenu = true;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

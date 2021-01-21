@@ -25,8 +25,8 @@ class PaginaCrudController extends AbstractCrudController
             TextField::new('titulo'),
             TextField::new('path')->OnlyOnForms(),
             TextEditorField::new('html')->OnlyOnForms(),
-            NumberField::new('menuOrder', "Menu Order")->onlyOnForms(),
-            BooleanField::new('showInMenu', "Show in menu")->onlyOnForms(),
+//            NumberField::new('menuOrder', "Menu Order")->onlyOnForms(),
+//            BooleanField::new('showInMenu', "Show in menu")->onlyOnForms(),
         ];
     }
 }

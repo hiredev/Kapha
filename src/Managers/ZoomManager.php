@@ -6,15 +6,19 @@ namespace App\Managers;
 
 use App\Entity\CuentaZoom;
 use App\Entity\Lesson;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\Entity;
 use Doctrine\Persistence\ManagerRegistry;
 
 class ZoomManager
 {
+    private $em;
 
-    public function __construct(ManagerRegistry $registry, string $client_id, string $client_secret)
+    public function __construct(EntityManager $manager, ManagerRegistry $registry, string $client_id, string $client_secret)
     {
 //        parent::__construct($registry, CuentaZoom::class);
 
+        $this->em = $manager;
         $this->client_id = $client_id;
         $this->client_secret = $client_secret;
     }
@@ -37,7 +41,12 @@ class ZoomManager
             $refreshToken = $client->getRefreshToken();
 
             $newClient = $this->refreshToken($refreshToken);
-            dd($newClient);
+            $client = new CuentaZoom();
+            $client->setAccessToken($newClient["access_token"]);
+            $client->setRefreshToken($newClient["refresh_token"]);
+
+            $this->em->persist($client);
+            $this->em->flush();
 
             $this->createMeeting($client, $lesson);
         }
@@ -60,7 +69,6 @@ class ZoomManager
 
         $response = curl_exec($ch);
 
-        dd($response);
         return json_decode($response, true);
     }
 

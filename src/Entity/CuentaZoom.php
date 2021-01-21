@@ -23,7 +23,7 @@ class CuentaZoom
     private $client_id;
 
     /**
-     * @ORM\Column(type="string", length=35)
+     * @ORM\Column(type="string", length=35, nullable=true)
      */
     private $code;
 

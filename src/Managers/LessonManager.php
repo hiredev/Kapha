@@ -33,7 +33,6 @@ class LessonManager
         ], 1)[0];
         if (!$zoom) {
             return new RedirectResponse($this->router->generate("zoom_create"));
-            dd($this->container);
         }
 
         $lesson->setPassword($this->generatePassword());

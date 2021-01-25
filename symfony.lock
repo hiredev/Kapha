@@ -90,6 +90,9 @@
     "egulias/email-validator": {
         "version": "2.1.22"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.2"
+    },
     "guzzlehttp/guzzle": {
         "version": "6.5.5"
     },

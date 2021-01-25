@@ -42,16 +42,19 @@ class ZoomManager
             $refreshToken = $client->getRefreshToken();
 
             $newClient = $this->refreshToken($refreshToken);
-            $client = new CuentaZoom();
-            $client->setAccessToken($newClient["access_token"]);
-            $client->setRefreshToken($newClient["refresh_token"]);
 
-            $this->em->persist($client);
-            $this->em->flush();
+            if (array_key_exists("access_token", $newClient)) {
+                $client = new CuentaZoom();
+                $client->setAccessToken($newClient["access_token"]);
+                $client->setRefreshToken($newClient["refresh_token"]);
 
-            $this->createMeeting($client, $lesson);
+                $this->em->persist($client);
+                $this->em->flush();
+
+                $this->createMeeting($client, $lesson);
+            }
         }
-        dd($client);
+//        dd($client);
     }
 
     private function refreshToken($refreshToken)

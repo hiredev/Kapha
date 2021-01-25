@@ -4,4 +4,4 @@ twig:
     globals:
         course_image: '%app.path.course_image%'
         lesson_image: '%app.path.lesson_image%'
-        tracher_image: '%app.path.teacher_image%'
+        teacher_image: '%app.path.teacher_image%'

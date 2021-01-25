@@ -68,9 +68,12 @@ class AdminController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Plans', 'fa fa-money', PaymentPlan::class);
         yield MenuItem::linkToCrud('Payment history', 'fa fa-money', Payment::class);
 
-
         yield MenuItem::section('Acceso');
         yield MenuItem::linkToCrud('Alumnos', 'fa fa-users', Student::class);
         yield MenuItem::linkToCrud('Usuarios', 'fa fa-users', User::class);
+
+        yield MenuItem::section('Design');
+        yield MenuItem::linktoRoute('Edit footer', 'fa fa-file', 'admin_design_footer');
+
     }
 }

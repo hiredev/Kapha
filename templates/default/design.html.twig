@@ -1,0 +1,210 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% macro recursiveMenu(menu) %}
+    {% import _self as self %}
+
+    {% for __menu in menu %}
+        {#        {{ dump(__menu) }}#}
+        {% if __menu["title"] is defined %}
+            <li data-title="{{ __menu["title"] }}" data-url="{{ __menu["url"] }}">
+                <b>{{ __menu["title"] }}</b> {{ __menu["url"] }}
+                {% if __menu.children is defined and (__menu.children | length) > 0 %}
+
+                    <ul>
+                        {% for children in __menu.children %}
+                            {{ self.recursiveMenu(children) }}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+
+
+{% block main %}
+
+    {% from _self import recursiveMenu %}
+
+    <div>
+        <button class="btn btn-success btn-block" id="save">Save</button>
+    </div>
+
+    <div class="col-md-8" id="menu-editor">
+        <div style="position: relative;margin-bottom: 100px;">
+
+            <h1>header</h1>
+
+            <ul class='default vertical' id="header">
+                {% for _menu in header %}
+                    {{ recursiveMenu(_menu) }}
+                {% endfor %}
+            </ul>
+
+            <div class="form">
+                <input type="text" class="title form-control" placeholder="Title">
+                <input type="text" class="url form-control" placeholder="/url/">
+                <button class="add-item">Add</button>
+            </div>
+        </div>
+
+        <div style="position: relative;margin-bottom: 100px;">
+            <h1>footer</h1>
+
+            <ul id="footer">
+                {% for _menu in footer %}
+                    {{ recursiveMenu(_menu) }}
+                {% endfor %}
+            </ul>
+            <div class="form">
+                <input type="text" class="title form-control" placeholder="Title">
+                <input type="text" class="url form-control" placeholder="/url/">
+                <button class="add-item">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/jquery-sortable-min.js"></script>
+    <script>
+        $(document).on("change", "#locale", function () {
+            location.href = "/menu/?locale=" + $(this).val();
+            return false;
+        });
+
+        function save(menu, data) {
+            //?locale=" + $("#locale").val()
+            $.ajax({
+                url: "/admin/design/save",
+                type: "POST",
+                data: {menu, data},
+                success: function (response) {
+                }
+            });
+        }
+
+        function saveAll() {
+            save("header", JSON.stringify(a.sortable("serialize").get()));
+            save("footer", JSON.stringify(b.sortable("serialize").get()));
+            // save("header_mobile", JSON.stringify(c.sortable("serialize").get()));
+
+        }
+
+
+        $(document).on("click", "#save", function () {
+            saveAll();
+            return false;
+        });
+
+        var a = $("#header").sortable({
+            group: "header",
+            onDrop: function ($item, container, _super) {
+                var json = JSON.stringify(a.sortable("serialize").get());
+                saveAll();
+                _super($item, container);
+            },
+        });
+
+        var b = $("#footer").sortable({
+            group: "footer",
+            onDrop: function ($item, container, _super) {
+                var json = JSON.stringify(b.sortable("serialize").get());
+                saveAll();
+                _super($item, container);
+            },
+        });
+
+        // var c = $("#mobile-row").sortable({
+        //     group: "header",
+        //     onDrop: function ($item, container, _super) {
+        //         var json = JSON.stringify(c.sortable("serialize").get());
+        //         saveAll();
+        //         _super($item, container);
+        //     },
+        // });
+
+        $(document).on("click", ".add-item", function () {
+            var title = $(this).parents(".form").find(".title").val(),
+                url = $(this).parents(".form").find(".url").val();
+
+            var $item = $("<li />").html("<b>" + title + "</b> " + url).data({
+                title, url
+            }).append($("<ul />"));
+
+            $(this).parent().parent().find("ul:first").append($item);
+
+            $(this).parents(".form").find("input").val("");
+        });
+
+
+        //    var $removeButton;
+        $(document).on("mouseenter", "#menu-editor li", function (e) {
+            e.stopPropagation();
+            var $li = $(this);
+            var $removeButton = $("<span />").text("×").css({
+                "position": "absolute",
+                "top": $li.position().top + 5,
+                "left": $li.position().left + $li.width() - 10,
+                "color": "#000",
+                "background": "#f00",
+                "padding": "1px 7px",
+                "border-radius": "50%",
+                "cursor": "pointer",
+            });
+            $(this).append($removeButton);
+            $removeButton.on("click", function () {
+                $(this).parent("li").remove();
+            });
+            $(this).on("mouseleave", () => {
+                $removeButton.remove();
+            });
+        });
+
+
+    </script>
+
+    <style>
+        .form {
+            position: absolute;
+            right: -304px;
+            top: 36px;
+            width: 300px;
+        }
+
+        #menu-editor ul {
+            list-style: none;
+            margin-bottom: 4px;
+        }
+
+        #menu-editor li {
+            /*    position: relative;*/
+            border: 1px #ccc solid;
+            padding: 4px 8px;
+            margin-bottom: 8px;
+            background: #eee;
+        }
+
+        body.dragging, body.dragging * {
+            cursor: move !important;
+        }
+
+        .dragged {
+            position: absolute;
+            opacity: 0.5;
+            z-index: 2000;
+        }
+
+        ol.example li.placeholder {
+            position: relative;
+            /** More li styles **/
+        }
+
+        ol.example li.placeholder:before {
+            position: absolute;
+            /** Define arrowhead **/
+        }
+    </style>
+
+{% endblock main %}
+
+

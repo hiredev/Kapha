@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class RegistroController extends AbstractController
+class RegistroController extends BaseController
 {
     private $encoder;
 

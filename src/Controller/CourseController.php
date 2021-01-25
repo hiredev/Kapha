@@ -9,7 +9,7 @@ use App\Entity\Course;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CourseController extends AbstractController
+class CourseController extends BaseController
 {
 
     protected $em;

@@ -1,3 +1,24 @@
+{% macro recursiveMenu(menu, child_menu) %}
+    {% import _self as self %}
+    {% set dev_prefix = '/wesdap/public' %}
+    {% for __menu in menu %}
+        <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+            <div class="text-uppercase-expanded text-xs mb-4">{{ __menu["title"] }}</div>
+            <ul class="list-unstyled mb-0">
+                {% for __children in __menu.children %}
+                    {% for ___menu in __children %}
+                        <li class="mb-2">
+                            <a href="{{ dev_prefix }}{{ ___menu.url }}">{{ ___menu.title }}</a>
+                        </li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{% from _self import recursiveMenu %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +44,9 @@
     <div id="layoutDefault_content">
         <main>
 
-            {{ render(controller('App\\Controller\\DefaultController::menu')) }}
+            {#            {{ render(controller('App\\Controller\\DefaultController::menu')) }}#}
+
+            {{ include('default/menu.html.twig') }}
 
             <header class="page-header page-header-dark bg-gradient-primary-to-secondary">
                 <div class="page-header-content pt-10">
@@ -52,54 +75,60 @@
                     </div>
                     <div class="col-lg-9">
                         <div class="row">
-                            <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
-                                <div class="text-uppercase-expanded text-xs mb-4">Mi Cuenta</div>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="mb-2"><a href="javascript:void(0);">Inicia sesión</a></li>
-                                    <li class="mb-2"><a href="javascript:void(0);">Regístrate</a></li>
-                                    <li class="mb-2"><a href="javascript:void(0);">Mis programas</a></li>
-                                    <li><a href="javascript:void(0);">Calendario</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
-                                <div class="text-uppercase-expanded text-xs mb-4">FAQs</div>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="mb-2"><a href="javascript:void(0);">Reinicio de contraseña</a></li>
-                                    <li class="mb-2"><a href="javascript:void(0);">Métodos de Pago</a></li>
-                                    <li class="mb-2"><a href="javascript:void(0);">Cancelaciones</a></li>
-                                    <li><a href="javascript:void(0);">Requisitos técnicos</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
-                                <div class="text-uppercase-expanded text-xs mb-4">Información</div>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="mb-2"><a href="javascript:void(0);">Términos y condiciones</a></li>
-                                    <li class="mb-2"><a href="javascript:void(0);">Aviso de privacidad</a></li>
-                                    <li class="mb-2"><a href="javascript:void(0);">Tratamiento de datos</a></li>
-                                    <li><a href="javascript:void(0);">Bolsa de trabajo</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-3 col-md-6">
-                                <div class="text-uppercase-expanded text-xs mb-4">Síguenos</div>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="mb-2"><a href="{{ url('privacy_policy') }}">Facebook</a></li>
-                                    <li class="mb-2"><a href="javascript:void(0);">Instagram</a></li>
-                                    <li><a href="javascript:void(0);">Twitter</a></li>
-                                </ul>
-                            </div>
+                            {% for _menu in footer %}
+                            {{ recursiveMenu(_menu) }}
                         </div>
+                        {% endfor %}
                     </div>
-                </div>
-                <hr class="my-5"/>
-                <div class="row align-items-center">
-                    <div class="col-md-6 small">Copyright &copy; Kapha.Lat 2021</div>
-                    <div class="col-md-6 text-md-right small">
-                        <a href="javascript:void(0);">Desarrollado por Wesdap.com</a>
-                    </div>
+                    {#                        #}
+                    {#                            <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">#}
+                    {#                                <div class="text-uppercase-expanded text-xs mb-4">Mi Cuenta</div>#}
+                    {#                                <ul class="list-unstyled mb-0">#}
+                    {#                                    <li class="mb-2"><a href="javascript:void(0);">Inicia sesión</a></li>#}
+                    {#                                    <li class="mb-2"><a href="javascript:void(0);">Regístrate</a></li>#}
+                    {#                                    <li class="mb-2"><a href="javascript:void(0);">Mis programas</a></li>#}
+                    {#                                    <li><a href="javascript:void(0);">Calendario</a></li>#}
+                    {#                                </ul>#}
+                    {#                            </div>#}
+                    {#                            <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">#}
+                    {#                                <div class="text-uppercase-expanded text-xs mb-4">FAQs</div>#}
+                    {#                                <ul class="list-unstyled mb-0">#}
+                    {#                                    <li class="mb-2"><a href="javascript:void(0);">Reinicio de contraseña</a></li>#}
+                    {#                                    <li class="mb-2"><a href="javascript:void(0);">Métodos de Pago</a></li>#}
+                    {#                                    <li class="mb-2"><a href="javascript:void(0);">Cancelaciones</a></li>#}
+                    {#                                    <li><a href="javascript:void(0);">Requisitos técnicos</a></li>#}
+                    {#                                </ul>#}
+                    {#                            </div>#}
+                    {#                            <div class="col-lg-3 col-md-6 mb-5 mb-md-0">#}
+                    {#                                <div class="text-uppercase-expanded text-xs mb-4">Información</div>#}
+                    {#                                <ul class="list-unstyled mb-0">#}
+                    {#                                    <li class="mb-2"><a href="javascript:void(0);">Términos y condiciones</a></li>#}
+                    {#                                    <li class="mb-2"><a href="javascript:void(0);">Aviso de privacidad</a></li>#}
+                    {#                                    <li class="mb-2"><a href="javascript:void(0);">Tratamiento de datos</a></li>#}
+                    {#                                    <li><a href="javascript:void(0);">Bolsa de trabajo</a></li>#}
+                    {#                                </ul>#}
+                    {#                            </div>#}
+                    {#                            <div class="col-lg-3 col-md-6">#}
+                    {#                                <div class="text-uppercase-expanded text-xs mb-4">Síguenos</div>#}
+                    {#                                <ul class="list-unstyled mb-0">#}
+                    {#                                    <li class="mb-2"><a href="{{ url('privacy_policy') }}">Facebook</a></li>#}
+                    {#                                    <li class="mb-2"><a href="javascript:void(0);">Instagram</a></li>#}
+                    {#                                    <li><a href="javascript:void(0);">Twitter</a></li>#}
+                    {#                                </ul>#}
+                    {#                            </div>#}
+                    {#                        </div>#}
                 </div>
             </div>
-        </footer>
+            <hr class="my-5"/>
+            <div class="row align-items-center">
+                <div class="col-md-6 small">Copyright &copy; Kapha.Lat 2021</div>
+                <div class="col-md-6 text-md-right small">
+                    <a href="javascript:void(0);">Desarrollado por Wesdap.com</a>
+                </div>
+            </div>
     </div>
+    </footer>
+</div>
 </div>
 {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>

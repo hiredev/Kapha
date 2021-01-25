@@ -73,7 +73,7 @@ class AdminController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Usuarios', 'fa fa-users', User::class);
 
         yield MenuItem::section('Design');
-        yield MenuItem::linktoRoute('Edit footer', 'fa fa-file', 'admin_design_footer');
+        yield MenuItem::linktoRoute('Edit menus', 'fa fa-file', 'admin_design');
 
     }
 }

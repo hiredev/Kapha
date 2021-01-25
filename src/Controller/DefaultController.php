@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class DefaultController extends AbstractController
+class DefaultController extends BaseController
 {
 
     protected $em;
@@ -43,6 +43,8 @@ class DefaultController extends AbstractController
         ], [
             'displayOrder' => "ASC"
         ], 3);
+
+
 
         return $this->render('default/bienvenido.html.twig', [
             'controller_name' => 'DefaultController',

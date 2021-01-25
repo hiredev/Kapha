@@ -1,3 +1,24 @@
+{% macro recursiveMenu(menu, child_menu) %}
+    {% import _self as self %}
+    {% set dev_prefix = '/wesdap/public' %}
+    {% for __menu in menu %}
+        {% if __menu["title"] is defined %}
+            <li class="nav-item" data-title="{{ __menu["title"] }}" data-url="{{ __menu["url"] }}">
+                {# {% if child_menu == true %} {% endif %}#}
+                <a class="{% if __menu.children is defined and (__menu.children[0] | length) > 0 %} menu-parent menu-drop{% endif %} nav-link" href="{{ dev_prefix }}{{ __menu["url"] }}">{{ __menu["title"] }}</a>
+                {% if __menu.children is defined and (__menu.children[0] | length) > 0 %}
+                    <ul class="header-menu__lvl2">
+                        {% for child in __menu.children %}
+                            {{ self.recursiveMenu(child, false) }}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+{% from _self import recursiveMenu %}
+
 <nav class="navbar navbar-marketing navbar-expand-lg bg-pink-soft navbar-dark fixed-top navbar-scrolled">
     <div class="container">
         <a class="navbar-brand text-white" href="{{ url('bienvenido') }}"><img src="{{ asset('assets/img/logo-kapha.svg') }}"/></a>
@@ -5,12 +26,17 @@
             <i data-feather="menu"></i></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto mr-lg-5">
-                <li class="nav-item"><a class="nav-link" href="{{ url('bienvenido') }}">Bienvenido</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url('nosotros') }}">Nosotros</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url('programas') }}">Programas</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url('teachers') }}">Maestros</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url('faq') }}">Faq's</a></li>
-{#                <li class="nav-item"><a class="nav-link" href="{{ url('ayuda') }}">Ayuda</a></li>#}
+                {% for _menu in header %}
+                    {{ recursiveMenu(_menu) }}
+                {% endfor %}
+                {#                <li class="nav-item"><a class="nav-link" href="{{ url('bienvenido') }}">Bienvenido</a></li>#}
+                {#                <li class="nav-item"><a class="nav-link" href="{{ url('nosotros') }}">Nosotros</a></li>#}
+                {#                <li class="nav-item"><a class="nav-link" href="{{ url('programas') }}">Programas</a></li>#}
+                {#                <li class="nav-item"><a class="nav-link" href="{{ url('teachers') }}">Maestros</a></li>#}
+                {#                <li class="nav-item"><a class="nav-link" href="{{ url('faq') }}">Faq's</a></li>#}
+
+
+                {#                <li class="nav-item"><a class="nav-link" href="{{ url('ayuda') }}">Ayuda</a></li>#}
                 {% if '0' == '1' %}
                     <li class="nav-item dropdown dropdown-xl no-caret">
                         <a class="nav-link dropdown-toggle" id="navbarDropdownDemos" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Landings<i class="fas fa-chevron-right dropdown-arrow"></i></a>

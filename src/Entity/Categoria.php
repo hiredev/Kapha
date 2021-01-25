@@ -36,6 +36,7 @@ class Categoria
 
     /**
      * @ORM\OneToMany(targetEntity=Teacher::class, mappedBy="categoria")
+     * @ORM\JoinColumn(name="teacher_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $teachers;
 

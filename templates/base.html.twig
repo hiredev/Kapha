@@ -37,17 +37,39 @@
     {% block javascripts_head %}
         <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
+
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                if (localStorage.getItem("lang") == null) {
+                    __lang = 0;
+                } else {
+                    __lang = parseInt(localStorage.getItem("lang"));
+                }
+                if (__lang !== 0) {
+                    new google.translate.TranslateElement({
+                        pageLanguage: 'es',
+                        includedLanguages: 'es,en',
+                        autoDisplay: false
+                    }, 'google_translate_element');
+                    var __lang;
+
+                    var a = document.querySelector("#google_translate_element select");
+                    a.selectedIndex = __lang;
+
+                    a.dispatchEvent(new Event('change'));
+                }
+            }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     {% endblock %}
 </head>
 <body>
+<div id="google_translate_element"></div>
+
 <div id="layoutDefault">
     <div id="layoutDefault_content">
         <main>
-
-            {#            {{ render(controller('App\\Controller\\DefaultController::menu')) }}#}
-
             {{ include('default/menu.html.twig') }}
-
             <header class="page-header page-header-dark bg-gradient-primary-to-secondary">
                 <div class="page-header-content pt-10">
                     <div class="container">

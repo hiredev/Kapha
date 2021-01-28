@@ -21010,3 +21010,8 @@ section {
   margin-left: 30px;
   margin-right: 30px;
 }
+
+.teacher-image, .course-image {
+  width: 100%;
+  max-height: 316px;
+}

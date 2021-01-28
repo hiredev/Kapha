@@ -5,17 +5,17 @@
 {% block body %}
     <section class="bg-white py-10">
         <div class="container">
-            {% for programa in programas %}
-                <div class="col-md-12" style="margin-bottom: 45px; display: flex;">
-                    <div style="margin-right: 30px">
-                        <img src="{{ course_image }}/{{ programa.imagen }}" alt="" style="width: 300px;">
+            <div class="row">
+                {% for programa in programas %}
+                    <div class="col-md-4" style="">
+                        <img class="course-image rounded-circle" src="{{ course_image }}/{{ programa.imagen }}" alt="">
+                        <div>
+                            <h1>{{ programa.title }}</h1>
+                            {{ programa.description | raw }}
+                        </div>
                     </div>
-                    <div>
-                        <h1>{{ programa.title }}</h1>
-                        {{ programa.description | raw }}
-                    </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </section>
     <style>

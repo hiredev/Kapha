@@ -21014,4 +21014,5 @@ section {
 .teacher-image, .course-image {
   width: 100%;
   max-height: 316px;
+  margin-bottom: 15px;
 }
